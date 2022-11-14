@@ -7,6 +7,8 @@ import { NavDropdown } from 'react-bootstrap';
 import iconSvg from './iconSvg.png';
 import './Header.css'
 import Button from 'react-bootstrap/Button';
+import AdminDashboard from './AdminDashboard';
+import { Link } from 'react-router-dom';
 
 export const Header=()=> {
   let Headerstyle={
@@ -39,13 +41,13 @@ export const Header=()=> {
             
           </Nav>
           <Nav >
-          <Nav.Link className="navbar-link" href="#home" style={Headerstyle}>Home</Nav.Link>
+          <Nav.Link className="navbar-link" href="/"  style={Headerstyle}>Home</Nav.Link>
           <Nav.Link className="navbar-link" href="#about" style={Headerstyle}>About Us</Nav.Link>
           <Nav.Link className="navbar-link" href="#contact" style={Headerstyle}>Contact Us</Nav.Link>
           <Nav.Link className="navbar-link" href="#donorlist" style={Headerstyle}>Donor List</Nav.Link>
           <Nav.Link className="navbar-link" href="#searchdonor" style={Headerstyle}>Search Donor</Nav.Link>
-          <Nav.Link className="navbar-link" href="#admin" style={Headerstyle}>Admin</Nav.Link>
-          <Button className="button" variant="light" style={HeaderButton}> Login</Button>{' '}
+          <Nav.Link className="navbar-link" href="/adminlogin" style={Headerstyle}>Admin</Nav.Link>
+          <Button className="button" variant="light" href="/login" style={HeaderButton}> Login</Button>{' '}
             {/* <NavDropdown className="navbar-dropdown" title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item className="navbar-dropdown-item" href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item className="navbar-dropdown-item" href="#action/3.2">

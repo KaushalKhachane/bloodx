@@ -14,6 +14,7 @@ import {Button} from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 import usericon from './usericon.png';
 import bloodgroup from './bloodgroup.jpg';
+import { Outlet } from 'react-router-dom';
 
 const Dashboard=()=> {
   return (
@@ -178,16 +179,14 @@ const Dashboard=()=> {
       <br></br>
     </Box>
    
-
-    
-
     <Box
     sx={{
       display: "flex",
       flexDirection: "column",
       maxHeight: "100vh",
       backgroundColor:"white",
-      color:"black"
+      color:"black",
+      mb:15
     }}
     >
       <Grid container spacing={12}>
@@ -222,7 +221,7 @@ const Dashboard=()=> {
                 
             </Typography>
             </Grid>
-            <Grid item xs={5} align="left" className="grid1">
+            <Grid item xs={5} align="left" className="grid1" style={{marginTop:"120px"}}>
             <img
                 className='doctor'
                 src={bloodgroup}
@@ -235,7 +234,7 @@ const Dashboard=()=> {
       <Grid container spacing={12}>
             <Grid item xs={2}>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={5} >
             <Typography variant="h5" align="left" style={{font:"23px Montserrat, sans-serif",color:"red"}}>
               <br></br>
               <br></br>
@@ -263,10 +262,11 @@ const Dashboard=()=> {
 
 
     <Footer/>
+    <Outlet/>
     </>
     
   )
 }
 
-export default Dashboard;
+export default Dashboard
 

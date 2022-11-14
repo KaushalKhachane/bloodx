@@ -5,11 +5,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import { BrowserRouter, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import AdminDashboard from './components/AdminDashboard';
+import Dashboard from './components/Dashboard';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+
     <App />
+    
+   
+    
   </React.StrictMode>
 );
 
