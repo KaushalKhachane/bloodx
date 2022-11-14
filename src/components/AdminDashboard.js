@@ -33,8 +33,8 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Outlet } from 'react-router-dom';
-
-
+import './AdminDashboard.css';
+import Header from './Header';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -90,10 +90,11 @@ function DashboardContent() {
   };
 
   return (
+    
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex', color:"red"}}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        {/* <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -126,13 +127,18 @@ function DashboardContent() {
               </Badge>
             </IconButton>
           </Toolbar>
+        </AppBar> */}
+        <AppBar>
+        <Header/>
         </AppBar>
+        
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
+              marginTop : '75px',
               px: [1],
             }}
           >
@@ -152,52 +158,54 @@ function DashboardContent() {
                 </ListItemButton>
                 <ListItemButton>
                 <ListItemIcon>
-                    <ShoppingCartIcon />
+                <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Orders" />
+                <ListItemText primary="Donor List" />
                 </ListItemButton>
                 <ListItemButton>
                 <ListItemIcon>
-                    <PeopleIcon />
+                    
+                    <LayersIcon />
                 </ListItemIcon>
-                <ListItemText primary="Customers" />
+                <ListItemText primary="Contact us queries" />
                 </ListItemButton>
                 <ListItemButton>
                 <ListItemIcon>
                     <BarChartIcon />
                 </ListItemIcon>
-                <ListItemText primary="Reports" />
+                <ListItemText primary="Hospital List" />
                 </ListItemButton>
-                <ListItemButton>
-                <ListItemIcon>
-                    <LayersIcon />
-                </ListItemIcon>
-                <ListItemText primary="Integrations" />
-                </ListItemButton>
+          
             </React.Fragment>
             <Divider sx={{ my: 1 }} />
             {/* {secondaryListItems} */}
             <React.Fragment>
                 <ListSubheader component="div" inset>
-                Saved reports
+                Dashboard Items
                 </ListSubheader>
                 <ListItemButton>
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
-                <ListItemText primary="Current month" />
+                <ListItemText primary="Blood Groups" />
                 </ListItemButton>
                 <ListItemButton>
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
-                <ListItemText primary="Last quarter" />
+                <ListItemText primary="Appointments" />
                 </ListItemButton>
                 <ListItemButton>
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
-                <ListItemText primary="Year-end sale" />
+                <ListItemText primary="Blood Requests" />
+                </ListItemButton>
+                <ListItemButton>
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Blood Stock" />
                 </ListItemButton>
             </React.Fragment>
           </List>
@@ -215,7 +223,7 @@ function DashboardContent() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="lg" sx={{ mt: 6, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
               <Grid item xs={12} md={4} lg={3}>

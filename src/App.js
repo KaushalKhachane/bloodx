@@ -9,6 +9,7 @@ import AdminDashboard from './components/AdminDashboard.js';
 import { BrowserRouter, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HospitalLogin from './components/HospitalLogin';
 import UserLogin from './components/UserLogin';
+import UserSignup from './components/UserSignup';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route exact path="/userlogin" element={<UserLogin/>} />
       <Route exact path="/hospitallogin" element={<HospitalLogin/>} />
       <Route exact path="/admindashboard" element={<AdminDashboard/>} />
+      <Route exact path="/usersignup" element={<UserSignup/>} />
 	    </Routes>
      </Router>
        
