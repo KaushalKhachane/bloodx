@@ -14,7 +14,9 @@ import Typography from '@mui/material/Typography';
 
 import Footer from './Footer.js';
 import Header from './Header.js';
-
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 // function Copyright(props) {
@@ -31,15 +33,35 @@ import Header from './Header.js';
 // }
 
 
-
 function HospitalLogin() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+  const [reg_no, setRegNo] = useState("");
+  const [hospital_password, setHospitalPassword] = useState("");
+  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
+  const [loginStatus, setLoginStatus] = useState("");
+
+  const navigate = useNavigate()
+
+  const handleClick = async e =>{
+    e.preventDefault()
+      await axios.post("http://localhost:8801/hospitallogin",{
+        reg_no:reg_no,
+        hospital_password:hospital_password,
+      })
+      .then((response)=>{
+        if(response.data.message){
+          setLoginStatus(response.data.message);
+        }else{
+          setLoginStatus(response.data[0].reg_no);
+          setauthenticated(true)
+          localStorage.setItem("authenticated", true);
+          navigate("/hospitaldashboard")
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+        // navigate("/userdashboard")   
   };
 
   return (
@@ -85,26 +107,32 @@ function HospitalLogin() {
               <b>Hospital Login</b>
             </Typography>
           <br></br>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="reg_no"
+                label="Registration No."
+                name="reg_no"
+                autoComplete="reg_no"
                 autoFocus
+                onChange={(e) => {
+                  setRegNo(e.target.value);
+                }}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                name="hospital_password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => {
+                  setHospitalPassword(e.target.value);
+                }}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -115,6 +143,7 @@ function HospitalLogin() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 3,p:1, bgcolor:'red' ,font:"18px Montserrat, sans-serif"}}
+                onClick={handleClick}
               >
                 <b>Sign In</b>
               </Button>
@@ -125,7 +154,7 @@ function HospitalLogin() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/hospitalsignup" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

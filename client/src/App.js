@@ -1,42 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
-import Header from './components/Header.js';
-import Dashboard from './components/Dashboard';
-import Footer from './components/Footer';
-import Login from './components/Login';
-import AdminLogin from './components/AdminLogin';
-import AdminDashboard from './components/AdminDashboard.js';
-import { BrowserRouter, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HospitalLogin from './components/HospitalLogin';
-import UserLogin from './components/UserLogin';
-import UserSignup from './components/UserSignup';
-import Appointments from './components/Appointments';
-import UserDashboard from './components/UserDashboard';
+import logo from "./logo.svg";
+import "./App.css";
+import Header from "./components/Header.js";
+import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
+import Login from "./components/Login";
+import AdminLogin from "./components/AdminLogin";
+import AdminDashboard from "./components/AdminDashboard.js";
+import {BrowserRouter, BrowserRouter as Router,Route,Routes,} from "react-router-dom";
+import HospitalLogin from "./components/HospitalLogin";
+import UserLogin from "./components/UserLogin";
+import UserSignup from "./components/UserSignup";
+import Appointments from "./components/Appointments";
+import UserDashboard from "./components/UserDashboard";
+import HospitalSignup from "./components/HospitalSignup";
+import HospitalDashboard from "./components/HospitalDashboard";
 
 function App() {
   return (
     <>
-   
-   <Router>
-    {/* <Header/> */}
-     <Routes>
-      <Route exact path="/" element={<Dashboard/>}/>
-         
-      <Route exact path="/login" element={<Login/>} />
-      <Route exact path="/adminlogin" element={<AdminLogin/>} />
-      <Route exact path="/userlogin" element={<UserLogin/>} />
-      <Route exact path="/hospitallogin" element={<HospitalLogin/>} />
-      <Route exact path="/admindashboard" element={<AdminDashboard/>} />
-      <Route exact path="/usersignup" element={<UserSignup/>} />
-      <Route exact path="/appointments" element={<Appointments/>} />
-      <Route exact path="/userdashboard" element={<UserDashboard/>} />
-	    </Routes>
-     </Router>
-       
+      <Router>
+        {/* <Header/> */}
+        <Routes>
+          <Route exact path="/" element={<Dashboard />} />
+
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/adminlogin" element={<AdminLogin />} />
+          <Route exact path="/userlogin" element={<UserLogin />} />
+          <Route exact path="/hospitallogin" element={<HospitalLogin />} />
+          <Route exact path="/admindashboard" element={<AdminDashboard />} />
+          <Route exact path="/usersignup" element={<UserSignup />} />
+          <Route exact path="/appointments" element={<Appointments />} />
+          <Route exact path="/userdashboard" element={<UserDashboard />} />
+          <Route exact path="/hospitalsignup" element={<HospitalSignup />} />
+          <Route
+            exact
+            path="/hospitaldashboard"
+            element={<HospitalDashboard />}
+          />
+        </Routes>
+      </Router>
     </>
-     
-    
-    
   );
 }
 

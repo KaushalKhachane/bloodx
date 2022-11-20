@@ -108,3 +108,39 @@ app.post("/bookappnt",(req,res) => {
     return res.json("Appointment has been booked successfully.");
   });
 });
+
+
+app.post("/hospitals",(req,res) => {
+  const q = "INSERT INTO hospitals(`hospital_name`,`hospital_address`,`hospital_phone_no`,`hospital_password`) VALUES (?)";
+  const values = [
+    req.body.hospital_name,
+    req.body.hospital_address,
+    req.body.hospital_phone_no,
+    req.body.hospital_password,
+  ];
+
+
+  db.query(q, [values], (err, data) => {
+    if(err) return res.json(err);
+    return res.json("Hospital has been added successfully.");
+  });
+});
+
+app.post("/hospitallogin", (req,res)=>{
+  const reg_no = req.body.reg_no;
+  const hospital_password = req.body.hospital_password;
+  const q = "SELECT * FROM hospitals WHERE reg_no = ? AND hospital_password = ?";
+
+  db.query(q,[reg_no,hospital_password],(err, result) => {
+    if(err){
+      res.send({err: err});
+    }
+
+    if(result){
+      res.send(result);
+    }
+    else{
+      res.send({message: "Wrong username/password !!"});
+    }
+  });
+});

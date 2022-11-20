@@ -278,9 +278,9 @@ const UserDashboard = () => {
                           label="Age"
                           onChange={handleChange1}
                         >
-                          <MenuItem value={"Location 1"}>Time 1</MenuItem>
-                          <MenuItem value={"Location 2"}>Time 2</MenuItem>
-                          <MenuItem value={"Location 3"}>Time 3</MenuItem>
+                          <MenuItem value={"Time 1"}>Time 1</MenuItem>
+                          <MenuItem value={"Time 2"}>Time 2</MenuItem>
+                          <MenuItem value={"Time 3"}>Time 3</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
