@@ -42,10 +42,10 @@ export const Header=()=> {
           </Nav>
           <Nav >
           <Nav.Link className="navbar-link" href="/"  style={Headerstyle}>Home</Nav.Link>
-          <Nav.Link className="navbar-link" href="#about" style={Headerstyle}>About Us</Nav.Link>
-          <Nav.Link className="navbar-link" href="#contact" style={Headerstyle}>Contact Us</Nav.Link>
-          <Nav.Link className="navbar-link" href="#donorlist" style={Headerstyle}>Donor List</Nav.Link>
-          <Nav.Link className="navbar-link" href="#searchdonor" style={Headerstyle}>Search Donor</Nav.Link>
+          {/* <Nav.Link className="navbar-link" href="#about" style={Headerstyle}>About Us</Nav.Link>
+          <Nav.Link className="navbar-link" href="#contact" style={Headerstyle}>Contact Us</Nav.Link> */}
+          <Nav.Link className="navbar-link" href="/maindonor" style={Headerstyle}>Donor List</Nav.Link>
+          {/* <Nav.Link className="navbar-link" href="#searchdonor" style={Headerstyle}>Search Donor</Nav.Link> */}
           <Nav.Link className="navbar-link" href="/adminlogin" style={Headerstyle}>Admin</Nav.Link>
           <Button className="button" variant="light" href="/login" style={HeaderButton}> Login</Button>{' '}
             {/* <NavDropdown className="navbar-dropdown" title="Dropdown" id="collasible-nav-dropdown">

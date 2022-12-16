@@ -15,8 +15,28 @@ import { Card } from "react-bootstrap";
 import usericon from "./usericon.png";
 import bloodgroup from "./bloodgroup.jpg";
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const Dashboard = () => {
+
+  const[appnt,setappnt] = useState([])
+
+  React.useEffect(()=>{
+    const fetchappnts = async()=>{
+    try{
+      const res = await axios.get("http://localhost:8801/appnts")
+      setappnt(res.data);
+      console.log(res)
+    }
+       
+      catch(err){
+        console.log(err)
+      }
+    }
+    fetchappnts();
+  },[])
+
   return (
     <>
       <Header />
@@ -138,6 +158,25 @@ const Dashboard = () => {
         <Grid container spacing={12}>
           <Grid item xs={1.5}></Grid>
 
+          
+
+          {appnt.map(appnts => (
+            <Grid item xs={3}>
+            <Card style={{ width: "18rem" }}>
+              <Card.Img variant="top" src={usericon} className="usericon" />
+              <Card.Body style={{ color: "black" }}>
+                <Card.Title>{appnts.app_name}</Card.Title>
+                <Card.Text align="left">
+                  Email: {appnts.app_email}
+                  <br></br>
+                  Blood Group: {appnts.app_blood_type}
+                </Card.Text>
+                {/* <Button variant="primary">Request</Button> */}
+              </Card.Body>
+            </Card>
+          </Grid>
+          ))}
+{/* 
           <Grid item xs={3}>
             <Card style={{ width: "18rem" }}>
               <Card.Img variant="top" src={usericon} className="usericon" />
@@ -166,22 +205,7 @@ const Dashboard = () => {
                 <Button variant="primary">Request</Button>
               </Card.Body>
             </Card>
-          </Grid>
-
-          <Grid item xs={3}>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={usericon} className="usericon" />
-              <Card.Body style={{ color: "black" }}>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text align="left">
-                  Gender:
-                  <br></br>
-                  Blood Group:
-                </Card.Text>
-                <Button variant="primary">Request</Button>
-              </Card.Body>
-            </Card>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={1.5}></Grid>
         </Grid>
@@ -303,6 +327,7 @@ const Dashboard = () => {
                   width: "115%",
                 }}
                 align="left"
+                href="/userlogin"
               >
                 <p
                   className="donorbutton"

@@ -35,8 +35,16 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Outlet } from 'react-router-dom';
 import './AdminDashboard.css';
 import Header from './Header';
-import { useState } from 'react';
+import Requests from './Requests';
+import Donors from './Donors';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
+import { useState } from 'react';
+import { Button } from 'react-bootstrap';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -91,13 +99,30 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const[avgage,setage] = useState([])
+  const[appnts,setappnt] = useState([])
 
-  React.useEffect(()=>{
-    const fetchage = async()=>{
+  const handleDelete = async(app_email)=>{
     try{
-      const res = await axios.get("http://localhost:8801/avgdonorage")
-      setage(res.data);
+      await axios.delete("http://localhost:8801/appointments/"+app_email );
+      window.location.reload()
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  const handleUpdate = async(app_email)=>{
+    try{
+      await axios.put("http://localhost:8801/appointments/"+app_email );
+      window.location.reload()
+    }catch(err){
+      console.log(err);
+    }
+  }
+  React.useEffect(()=>{
+    const fetchappnt = async()=>{
+    try{
+      const res = await axios.get("http://localhost:8801/appointments")
+      setappnt(res.data);
       console.log(res)
     }
        
@@ -105,7 +130,7 @@ function DashboardContent() {
         console.log(err)
       }
     }
-    fetchage();
+    fetchappnt();
   },[])
 
   return (
@@ -169,7 +194,7 @@ function DashboardContent() {
           <List component="nav">
             {/* {mainListItems} */}
             <React.Fragment>
-                <ListItemButton to="/admindashboard">
+                <ListItemButton href="/admindashboard">
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
@@ -181,6 +206,7 @@ function DashboardContent() {
                 </ListItemIcon>
                 <ListItemText primary="Donor List" />
                 </ListItemButton>
+                
                 <ListItemButton href="/hospitallist">
                 <ListItemIcon>
                     <BarChartIcon />
@@ -201,7 +227,7 @@ function DashboardContent() {
                 </ListItemIcon>
                 <ListItemText primary="Blood Groups" />
                 </ListItemButton>
-                <ListItemButton href="/appntlist">
+                <ListItemButton href="appntlist">
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
@@ -211,9 +237,8 @@ function DashboardContent() {
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
-                <ListItemText primary="Blood Requests"/>
+                <ListItemText primary="Blood Requests" />
                 </ListItemButton>
-                
                 <ListItemButton href="/stock">
                 <ListItemIcon>
                     <AssignmentIcon />
@@ -239,12 +264,47 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 6, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-       
-              
+             
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Appointments />
+                <React.Fragment>
+      <Typography component="h2" variant="h6" color="primary" align="left " gutterBottom>
+         <b>Appointments</b>
+    </Typography>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+          <TableCell><b>Date</b></TableCell>
+            <TableCell><b>Email</b></TableCell>
+            <TableCell><b>Name</b></TableCell>
+            <TableCell><b>Phone No</b></TableCell>
+            <TableCell><b>Blood Group</b></TableCell>
+            <TableCell><b>Donation Camp</b></TableCell>
+            <TableCell><b>Donated(Y/N)</b></TableCell>
+            <TableCell><b>Operations</b></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {appnts.map(appnt => (
+            <TableRow>
+              <TableCell>{appnt.app_date}</TableCell>
+              <TableCell>{appnt.app_email}</TableCell>
+              <TableCell>{appnt.app_name}</TableCell>
+              <TableCell>{appnt.app_phone_no}</TableCell>
+              <TableCell>{appnt.app_blood_type}</TableCell>
+              <TableCell>{appnt.app_camp_address}</TableCell>
+              <TableCell>{appnt.app_donated}</TableCell>
+              <TableCell><Button variant="success" className="approve" onClick={()=>handleUpdate(appnt.app_email)}>Approve</Button>{''} </TableCell>
+              <TableCell> <Button variant="danger" className="delete" onClick={()=>handleDelete(appnt.app_email)}>Delete</Button>{''}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+        See more orders
+      </Link> */}
+    </React.Fragment>
                 </Paper>
               </Grid>
             </Grid>
@@ -259,6 +319,6 @@ function DashboardContent() {
   );
 }
 
-export default function AdminDashboard() {
+export default function AppointmentsList() {
   return <DashboardContent />;
 }

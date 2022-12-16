@@ -108,14 +108,14 @@ Follow the below link to know more about us.
                     
                   </Typography>
                   <br></br>
-                  <Link to="/" className="footerlink" style={{textDecoration:'none'}} align="left">Home</Link><br></br><br></br>
+                  <Link href="/" className="footerlink" style={{textDecoration:'none'}} align="left">Home</Link><br></br><br></br>
                   <Link to="/" className="footerlink" style={{textDecoration:'none'}} align="left">About us</Link><br></br><br></br>
                   <Link to="/" className="footerlink" style={{textDecoration:'none'}} align="left">Contact Us</Link><br></br>
                   {/* <a href="#">Home</a> */}
                   
             </Grid>
           </Grid>
-          <Typography variant="body1" color="white">
+          <Typography variant="body1" color="white" align="center">
             <hr></hr>© BloodX - Blood Bank Management System
           </Typography>
           {/* <Copyright /> */}

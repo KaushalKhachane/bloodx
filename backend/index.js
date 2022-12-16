@@ -11,7 +11,6 @@ app.listen(8801,()=>{
     console.log("Connected to backend!")
 })
 
-
 // var mysql = require('mysql');
 
 const db = mysql.createConnection({
@@ -87,8 +86,8 @@ app.post("/adminlogin", (req,res)=>{
 
 
 
-app.post("/bookappnt",(req,res) => {
-  const q = "INSERT INTO appointments(`app_email`,`app_name`,`app_phone_no`,`app_blood_type`,`app_camp_address`,`app_age`,`app_diabetic`,`app_date`,`app_time`) VALUES (?)";
+app.post("/bookappnts",(req,res) => {
+  const q = "INSERT INTO appointments (`app_email`,`app_name`,`app_phone_no`,`app_blood_type`,`app_camp_address`,`app_age`,`app_diabetic`,`app_date`,`app_time`,`app_donated`) VALUES (?)";
   const values = [
     req.body.app_email,
     req.body.app_name,
@@ -99,7 +98,7 @@ app.post("/bookappnt",(req,res) => {
     req.body.app_diabetic,
     req.body.app_date,
     req.body.app_time,
-    
+    req.body.app_donated,
   ];
 
 
@@ -111,7 +110,7 @@ app.post("/bookappnt",(req,res) => {
 
 
 app.post("/hospitals",(req,res) => {
-  const q = "INSERT INTO hospitals(`hospital_name`,`hospital_address`,`hospital_phone_no`,`hospital_password`) VALUES (?)";
+  const q = "INSERT INTO hospitals (`hospital_name`,`hospital_address`,`hospital_phone_no`,`hospital_password`) VALUES (?)";
   const values = [
     req.body.hospital_name,
     req.body.hospital_address,
@@ -144,3 +143,104 @@ app.post("/hospitallogin", (req,res)=>{
     }
   });
 });
+
+app.delete("/appointments/:app_email", (req,res)=>{
+  const email = req.params.app_email;
+  const q="DELETE FROM appointments WHERE app_email = ?"
+  db.query(q,[email],(err,data)=>{
+    if(err) return res.json(err);
+    return res.json("Appointment has been deleted successfully!!");
+  })
+})
+
+app.put("/appointments/:app_email", (req,res)=>{
+  const email = req.params.app_email;
+  const q="UPDATE appointments SET `app_donated`='Y' WHERE app_email = ?"
+  db.query(q,[email],(err,data)=>{
+    if(err) return res.json(err);
+    return res.json("Appointment has been approved successfully!!");
+  })
+})
+
+app.post("/requests",(req,res) => {
+  const q = "INSERT INTO requests(`reg_no`,`request_blood_type`,`request_units`,`urgent`,`request_delivered`) VALUES (?)";
+  const values = [
+    req.body.reg_no,
+    req.body.request_blood_type,
+    req.body.request_units,
+    req.body.urgent,
+    req.body.request_delivered,
+  ];
+
+
+  db.query(q, [values], (err, data) => {
+    if(err) return res.json(err);
+    return res.json("Request has been created successfully.");
+  });
+});
+
+app.get("/requests",(req,res)=>{
+  const q="SELECT * from requests"
+  db.query(q,(err,data)=>{
+    if(err) return res.json(err)
+    return res.json(data)
+  })
+})
+
+app.delete("/requests/:reg_no", (req,res)=>{
+  const regno = req.params.reg_no;
+  const q="DELETE FROM requests WHERE reg_no = ?"
+  db.query(q,[regno],(err,data)=>{
+    if(err) return res.json(err);
+    return res.json("Request has been deleted successfully!!");
+  })
+})
+
+app.put("/requests/:reg_no", (req,res)=>{
+  const regno = req.params.reg_no;
+  const q="UPDATE requests SET `request_delivered`='Y' WHERE reg_no = ?"
+  db.query(q,[regno],(err,data)=>{
+    if(err) return res.json(err);
+    return res.json("Request has been approved successfully!!");
+  })
+})
+
+app.get("/appnts",(req,res)=>{
+  const q="SELECT app_email,app_name,app_phone_no,app_blood_type,app_camp_address,app_age,app_diabetic,app_date,app_time,app_donated from appointments WHERE `app_donated`='Y'"
+  db.query(q,(err,data)=>{
+    if(err) return res.json(err)
+    return res.json(data)
+  })
+})
+
+app.get("/hospitals",(req,res)=>{
+  const q="SELECT * from hospitals"
+  db.query(q,(err,data)=>{
+    if(err) return res.json(err)
+    return res.json(data)
+  })
+})
+
+app.get("/stock",(req,res)=>{
+  const q="SELECT * from stock"
+  db.query(q,(err,data)=>{
+    if(err) return res.json(err)
+    return res.json(data)
+  })
+})
+
+app.get("/bgdonor",(req,res)=>{
+  const q="SELECT app_blood_type,count(*) as count from appointments group by app_blood_type"
+  db.query(q,(err,data)=>{
+    if(err) return res.json(err)
+    return res.json(data)
+  })
+})
+
+app.get("/bgrequests",(req,res)=>{
+  const q="SELECT request_blood_type,count(*) as count from requests group by request_blood_type"
+  db.query(q,(err,data)=>{
+    if(err) return res.json(err)
+    return res.json(data)
+  })
+})

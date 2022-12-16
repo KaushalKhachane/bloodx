@@ -35,8 +35,15 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Outlet } from 'react-router-dom';
 import './AdminDashboard.css';
 import Header from './Header';
-import { useState } from 'react';
+import Requests from './Requests';
+import Donors from './Donors';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
+import { useState } from 'react';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -91,13 +98,13 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const[avgage,setage] = useState([])
+  const[hospital,sethospital] = useState([])
 
   React.useEffect(()=>{
-    const fetchage = async()=>{
+    const fetchhospitals = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/avgdonorage")
-      setage(res.data);
+      const res = await axios.get("http://localhost:8801/hospitals")
+      sethospital(res.data);
       console.log(res)
     }
        
@@ -105,7 +112,7 @@ function DashboardContent() {
         console.log(err)
       }
     }
-    fetchage();
+    fetchhospitals();
   },[])
 
   return (
@@ -169,7 +176,7 @@ function DashboardContent() {
           <List component="nav">
             {/* {mainListItems} */}
             <React.Fragment>
-                <ListItemButton to="/admindashboard">
+                <ListItemButton href="/admindashboard">
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
@@ -181,6 +188,7 @@ function DashboardContent() {
                 </ListItemIcon>
                 <ListItemText primary="Donor List" />
                 </ListItemButton>
+                
                 <ListItemButton href="/hospitallist">
                 <ListItemIcon>
                     <BarChartIcon />
@@ -201,7 +209,7 @@ function DashboardContent() {
                 </ListItemIcon>
                 <ListItemText primary="Blood Groups" />
                 </ListItemButton>
-                <ListItemButton href="/appntlist">
+                <ListItemButton href="appntlist">
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
@@ -211,9 +219,8 @@ function DashboardContent() {
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
-                <ListItemText primary="Blood Requests"/>
+                <ListItemText primary="Blood Requests" />
                 </ListItemButton>
-                
                 <ListItemButton href="/stock">
                 <ListItemIcon>
                     <AssignmentIcon />
@@ -239,12 +246,40 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 6, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-       
-              
+             
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Appointments />
+                <React.Fragment>
+      <Typography component="h2" variant="h6" color="primary" align="left " gutterBottom>
+         <b>Hospital List</b>
+    </Typography>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell><b>Reg. No</b></TableCell>
+            <TableCell><b>Name</b></TableCell>
+            <TableCell><b>Address</b></TableCell>
+            <TableCell><b>Phone No.</b></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {hospital.map(hosp => (
+            <TableRow>
+              <TableCell>{hosp.reg_no}</TableCell>
+              <TableCell>{hosp.hospital_name}</TableCell>
+              <TableCell>{hosp.hospital_address}</TableCell>
+              <TableCell>{hosp.hospital_phone_no}</TableCell>
+              
+
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+        See more orders
+      </Link> */}
+    </React.Fragment>
                 </Paper>
               </Grid>
             </Grid>
@@ -259,6 +294,6 @@ function DashboardContent() {
   );
 }
 
-export default function AdminDashboard() {
+export default function HospitalList() {
   return <DashboardContent />;
 }

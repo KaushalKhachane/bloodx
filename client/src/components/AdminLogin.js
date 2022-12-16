@@ -44,7 +44,7 @@ function AdminLogin() {
   //   });
   // };
 
-
+  const validateForm = React.useRef();
 
   const [admin_name, setAdminName] = useState("");
   const [admin_password, setAdminPassword] = useState("");
@@ -119,6 +119,7 @@ const navigate = useNavigate()
             </Typography>
           <br></br>
             <Box component="form" noValidate  sx={{ mt: 1 }}>
+              
               <TextField
                 margin="normal"
                 required
@@ -159,18 +160,8 @@ const navigate = useNavigate()
 
                 <b>Sign In</b>
               </Button>
-              <Grid container>
-                <Grid item xs align="left">
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/usersignup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
+              
+              
               {/* <Copyright sx={{ mt: 5 }} /> */}
             </Box>
           </Box>

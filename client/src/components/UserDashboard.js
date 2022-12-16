@@ -24,7 +24,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-
+import Form from 'react-bootstrap/Form';
 import Select from "@mui/material/Select";
 import DatePicker from "react-datepicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -35,48 +35,57 @@ import { CDatePicker } from '@coreui/react-pro'
 import "react-datepicker/dist/react-datepicker.css";
 
 const UserDashboard = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      user_email: data.get("user_email"),
-      user_password: data.get("user_password"),
-    });
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     user_email: data.get("user_email"),
+  //     user_password: data.get("user_password"),
+  //   });
+  // };
 
-  const [user, addUser] = useState({
-    user_email: "",
-    user_name: "",
-    user_phone_no: null,
-    user_gender: "",
-    user_address: "",
-    user_password: "",
+  const [appointment, addAppointment] = useState({
+    app_email: "",
+    app_name: "",
+    app_phone_no: null,
+    app_age: null,
+    app_diabetic: "",
+    app_donated:"N",
+    app_camp_address:"",
+    app_date:"new Date()",
+    app_time:null,
+    app_blood_type:"",
   });
 
   const handleChange = (e) => {
-    addUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    addAppointment((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  
   };
-
+  
   const navigate = useNavigate();
 
-  const [age, setAge] = React.useState("");
 
-  const [value, setValue] = React.useState(null);
-  const handleChange1 = (event) => {
-    setAge(event.target.value);
-  };
+  // const [value, setValue] = React.useState(null);
+  // const handleChange1 = (e1) => {
+  //   setBloodGroup((prev) => ({ ...prev, [e1.target.value]: e1.target.value }));
+  //   setCampAddress((prev) => ({ ...prev, [e1.target.innerText]: e1.target.innerText }));
+  //   setTime((prev) => ({ ...prev, [e1.target.innerText]: e1.target.innerText }));
+  // };
 
-  const handleClick = async (e) => {
+  const handleClick = async e => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8801/users", user);
+      await axios.post("http://localhost:8801/bookappnts", appointment);
+      navigate("/userlogin")
       // navigate("/admindashboard")
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log(user);
+  console.log(appointment);
+
+  
 
   const [authenticated, setauthenticated] = useState(null);
   useEffect(() => {
@@ -137,14 +146,14 @@ const UserDashboard = () => {
                 <Box
                   component="form"
                   noValidate
-                  onSubmit={handleSubmit}
+                
                   sx={{ mt: 3 }}
                 >
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <TextField
                         autoComplete="given-name"
-                        name="user_name"
+                        name="app_name"
                         required
                         fullWidth
                         id="name"
@@ -160,7 +169,7 @@ const UserDashboard = () => {
                         fullWidth
                         id="email"
                         label="Email Address"
-                        name="user_email"
+                        name="app_email"
                         autoComplete="email"
                         onChange={handleChange}
                       />
@@ -170,7 +179,7 @@ const UserDashboard = () => {
                       <TextField
                         required
                         fullWidth
-                        name="user_phone_no"
+                        name="app_phone_no"
                         label="Phone Number"
                         type="number"
                         id="phno"
@@ -178,36 +187,12 @@ const UserDashboard = () => {
                         onChange={handleChange}
                       />
                     </Grid>
-
-                    <Grid item xs={4}>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-autowidth-label">
-                          Blood Group
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-autowidth-select-label"
-                          id="demo-simple-select"
-                          value={age}
-                          label="Age"
-                          onChange={handleChange1}
-                        >
-                          <MenuItem value={"O+"}>O+ve</MenuItem>
-                          <MenuItem value={"O-"}>O-ve</MenuItem>
-                          <MenuItem value={"A+"}>A+ve</MenuItem>
-                          <MenuItem value={"A-"}>A-ve</MenuItem>
-                          <MenuItem value={"B+"}>B+ve</MenuItem>
-                          <MenuItem value={"B-"}>B-ve</MenuItem>
-                          <MenuItem value={"AB+"}>AB+ve</MenuItem>
-                          <MenuItem value={"AB-"}>AB-ve</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
+                    
                     <Grid item xs={4}>
                       <TextField
                         required
                         fullWidth
-                        name="age"
+                        name="app_age"
                         label="Age"
                         type="number"
                         id="age"
@@ -217,22 +202,31 @@ const UserDashboard = () => {
                     </Grid>
 
                     <Grid item xs={4}>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-autowidth-label">
-                          Camp Location
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-autowidth-select-label"
-                          id="demo-simple-select"
-                          value={age}
-                          label="Age"
-                          onChange={handleChange1}
-                        >
-                          <MenuItem value={"Location 1"}>Location 1</MenuItem>
-                          <MenuItem value={"Location 2"}>Location 2</MenuItem>
-                          <MenuItem value={"Location 3"}>Location 3</MenuItem>
-                        </Select>
-                      </FormControl>
+                    <TextField
+                        required
+                        fullWidth
+                        name="app_blood_type"
+                        label="Blood Group"
+                        type="text"
+                        id="blood_group"
+                        autoComplete="blood_group"
+                        onChange={handleChange}
+                      />
+                    </Grid>
+
+                    
+
+                    <Grid item xs={4}>
+                    <TextField
+                        required
+                        fullWidth
+                        name="app_camp_address"
+                        label="Camp Location"
+                        type="text"
+                        id="blood_group"
+                        autoComplete="blood_group"
+                        onChange={handleChange}
+                      />
                     </Grid>
 
                     <Grid item xs={12}>
@@ -247,14 +241,14 @@ const UserDashboard = () => {
                         >
                           <FormControlLabel
                             value="Y"
-                            name="diabetic"
+                            name="app_diabetic"
                             onChange={handleChange}
                             control={<Radio />}
                             label="Yes"
                           />
                           <FormControlLabel
                             value="N"
-                            name="diabetic"
+                            name="app_diabetic"
                             onChange={handleChange}
                             control={<Radio />}
                             label="No"
@@ -262,27 +256,31 @@ const UserDashboard = () => {
                         </RadioGroup>
                       </FormControl>
                     </Grid>
+
                     <Grid item xs={6}>
-                    <CDatePicker locale="en-US" size="50px" />
+                    <TextField
+                        required
+                        fullWidth
+                        id="email"
+                        label="Appointment Date"
+                        name="app_date"
+                        autoComplete="email"
+                        onChange={handleChange}
+                      />
                     </Grid>
-<Grid item xs={3}></Grid>
+
+                  <Grid item xs={3}></Grid>
                     <Grid item xs={6}>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-autowidth-label">
-                          Time Slot
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-autowidth-select-label"
-                          id="demo-simple-select"
-                          value={age}
-                          label="Age"
-                          onChange={handleChange1}
-                        >
-                          <MenuItem value={"Time 1"}>Time 1</MenuItem>
-                          <MenuItem value={"Time 2"}>Time 2</MenuItem>
-                          <MenuItem value={"Time 3"}>Time 3</MenuItem>
-                        </Select>
-                      </FormControl>
+                    <TextField
+                        required
+                        fullWidth
+                        name="app_time"
+                        label="Time Slot (10:00/2:00/5:00)"
+                        type="text"
+                        id="blood_group"
+                        autoComplete="blood_group"
+                        onChange={handleChange}
+                      />
                     </Grid>
                   </Grid>
                   <Button

@@ -47,6 +47,8 @@ const UserSignup=()=> {
         addUser((prev) => ({...prev, [e.target.name]:e.target.value}));
     };
 
+    
+
     const navigate = useNavigate()
 
     const handleClick = async e =>{

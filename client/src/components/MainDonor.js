@@ -35,8 +35,8 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Outlet } from 'react-router-dom';
 import './AdminDashboard.css';
 import Header from './Header';
-import { useState } from 'react';
-import axios from 'axios';
+import Requests from './Requests';
+import Donors from './Donors';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -91,23 +91,6 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const[avgage,setage] = useState([])
-
-  React.useEffect(()=>{
-    const fetchage = async()=>{
-    try{
-      const res = await axios.get("http://localhost:8801/avgdonorage")
-      setage(res.data);
-      console.log(res)
-    }
-       
-      catch(err){
-        console.log(err)
-      }
-    }
-    fetchage();
-  },[])
-
   return (
     
     <ThemeProvider theme={mdTheme}>
@@ -151,78 +134,6 @@ function DashboardContent() {
         <Header/>
         </AppBar>
         
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              marginTop : '75px',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">
-            {/* {mainListItems} */}
-            <React.Fragment>
-                <ListItemButton to="/admindashboard">
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-                </ListItemButton>
-                <ListItemButton href="/donorlist">
-                <ListItemIcon>
-                <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Donor List" />
-                </ListItemButton>
-                <ListItemButton href="/hospitallist">
-                <ListItemIcon>
-                    <BarChartIcon />
-                </ListItemIcon>
-                <ListItemText primary="Hospital List" />
-                </ListItemButton>
-          
-            </React.Fragment>
-            <Divider sx={{ my: 1 }} />
-            {/* {secondaryListItems} */}
-            <React.Fragment>
-                <ListSubheader component="div" inset>
-                Dashboard Items
-                </ListSubheader>
-                <ListItemButton href="/bg">
-                <ListItemIcon>
-                    <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="Blood Groups" />
-                </ListItemButton>
-                <ListItemButton href="/appntlist">
-                <ListItemIcon>
-                    <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="Appointments" />
-                </ListItemButton>
-                <ListItemButton href="/bloodrequests">
-                <ListItemIcon>
-                    <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="Blood Requests"/>
-                </ListItemButton>
-                
-                <ListItemButton href="/stock">
-                <ListItemIcon>
-                    <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="Blood Stock" />
-                </ListItemButton>
-            </React.Fragment>
-          </List>
-        </Drawer>
         <Box
           component="main"
           sx={{
@@ -239,12 +150,11 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 6, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-       
-              
+             
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Appointments />
+                  <Donors />
                 </Paper>
               </Grid>
             </Grid>
@@ -259,6 +169,6 @@ function DashboardContent() {
   );
 }
 
-export default function AdminDashboard() {
+export default function MainDonor() {
   return <DashboardContent />;
 }

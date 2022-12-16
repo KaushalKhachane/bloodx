@@ -36,49 +36,33 @@ const HospitalDashboard=()=> {
     //         user_password: data.get('user_password'),
     //     });
     // };
-
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      console.log({
-        user_email: data.get("user_email"),
-        user_password: data.get("user_password"),
-      });
-    };
+    const navigate = useNavigate()
+    
   
-    const [user, addUser] = useState({
-      user_email: "",
-      user_name: "",
-      user_phone_no: null,
-      user_gender: "",
-      user_address: "",
-      user_password: "",
+    const [requests, addRequest] = useState({
+      reg_no:null,
+      request_blood_type:"",
+      request_units:null,
+      urgent:"",
+      request_delivered:"N"
     });
   
     const handleChange = (e) => {
-      addUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+      addRequest((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-  
-    const navigate = useNavigate();
-  
-    const [age, setAge] = React.useState("");
-  
-    const [value, setValue] = React.useState(null);
-    const handleChange1 = (event) => {
-      setAge(event.target.value);
-    };
+
   
     const handleClick = async (e) => {
       e.preventDefault();
       try {
-        await axios.post("http://localhost:8801/request", user);
-        // navigate("/admindashboard")
+        await axios.post("http://localhost:8801/requests", requests);
+        navigate("/")
       } catch (err) {
         console.log(err);
       }
     };
   
-    console.log(user);
+    console.log(requests);
 
     return (
 
@@ -112,8 +96,9 @@ const HospitalDashboard=()=> {
                     </Typography>
                     <Box component="form" noValidate  sx={{ mt: 3 }}>
                       <Grid container spacing={2}>
+                        
                         <Grid item xs={4}>
-                      <FormControl fullWidth>
+                      {/* <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-autowidth-label">
                           Blood Group
                         </InputLabel>
@@ -133,23 +118,35 @@ const HospitalDashboard=()=> {
                           <MenuItem value={"AB+"}>AB+ve</MenuItem>
                           <MenuItem value={"AB-"}>AB-ve</MenuItem>
                         </Select>
-                      </FormControl>
+                      </FormControl> */}
+                      
+                      <TextField
+                                    required
+                                    fullWidth
+                                    id="regno"
+                                    label="Blood Group"
+                                    name="request_blood_type"
+                                    autoComplete="regno"
+                                    type="text"
+                                    onChange={handleChange}
+                                />
 
                       
                     </Grid>
+                
                     <Grid item xs={4}>
                                 <TextField
                                     required
                                     fullWidth
                                     id="regno"
                                     label="Quantity"
-                                    name="qty"
+                                    name="request_units"
                                     autoComplete="regno"
                                     type="number"
                                     onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={8}>
                                 <TextField
                                     required
                                     fullWidth
@@ -169,8 +166,8 @@ const HospitalDashboard=()=> {
                                         aria-labelledby="demo-row-radio-buttons-group-label"
                                         name="row-radio-buttons-group"
                                     >
-                                        <FormControlLabel value="Male" name="urgent" onChange={handleChange} control={<Radio />} label="Yes" />
-                                        <FormControlLabel value="Female" name="urgent" onChange={handleChange} control={<Radio />} label="No" />
+                                        <FormControlLabel value="Y" name="urgent" onChange={handleChange} control={<Radio />} label="Yes" />
+                                        <FormControlLabel value="N" name="urgent" onChange={handleChange} control={<Radio />} label="No" />
                                        
 
                                     </RadioGroup>

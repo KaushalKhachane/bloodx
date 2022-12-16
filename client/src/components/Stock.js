@@ -35,8 +35,15 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Outlet } from 'react-router-dom';
 import './AdminDashboard.css';
 import Header from './Header';
-import { useState } from 'react';
+import Requests from './Requests';
+import Donors from './Donors';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
+import { useState } from 'react';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -91,13 +98,13 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const[avgage,setage] = useState([])
+  const[stocks,setstocks] = useState([])
 
   React.useEffect(()=>{
-    const fetchage = async()=>{
+    const fetchstock = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/avgdonorage")
-      setage(res.data);
+      const res = await axios.get("http://localhost:8801/stock")
+      setstocks(res.data);
       console.log(res)
     }
        
@@ -105,7 +112,7 @@ function DashboardContent() {
         console.log(err)
       }
     }
-    fetchage();
+    fetchstock();
   },[])
 
   return (
@@ -169,7 +176,7 @@ function DashboardContent() {
           <List component="nav">
             {/* {mainListItems} */}
             <React.Fragment>
-                <ListItemButton to="/admindashboard">
+                <ListItemButton href="/admindashboard">
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
@@ -181,6 +188,7 @@ function DashboardContent() {
                 </ListItemIcon>
                 <ListItemText primary="Donor List" />
                 </ListItemButton>
+                
                 <ListItemButton href="/hospitallist">
                 <ListItemIcon>
                     <BarChartIcon />
@@ -195,7 +203,7 @@ function DashboardContent() {
                 <ListSubheader component="div" inset>
                 Dashboard Items
                 </ListSubheader>
-                <ListItemButton href="/bg">
+                <ListItemButton>
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
@@ -211,10 +219,9 @@ function DashboardContent() {
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
-                <ListItemText primary="Blood Requests"/>
+                <ListItemText primary="Blood Requests" />
                 </ListItemButton>
-                
-                <ListItemButton href="/stock">
+                <ListItemButton>
                 <ListItemIcon>
                     <AssignmentIcon />
                 </ListItemIcon>
@@ -239,12 +246,34 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 6, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-       
-              
+             
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Appointments />
+                <React.Fragment>
+      <Typography component="h2" variant="h6" color="primary" align="left " gutterBottom>
+         <b>Blood Stocks</b>
+    </Typography>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell><b>Blood Group</b></TableCell>
+            <TableCell><b>Quantity</b></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {stocks.map(stock => (
+            <TableRow>
+              <TableCell>{stock.blood_type}</TableCell>
+              <TableCell>{stock.quantity}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+        See more orders
+      </Link> */}
+    </React.Fragment>
                 </Paper>
               </Grid>
             </Grid>
@@ -259,6 +288,6 @@ function DashboardContent() {
   );
 }
 
-export default function AdminDashboard() {
+export default function Stock() {
   return <DashboardContent />;
 }
