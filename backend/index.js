@@ -20,6 +20,15 @@ const db = mysql.createConnection({
   database:"blood_bank"
 });
 
+
+// const db = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "2243",
+//   database: "blood_bank",
+//   port: 3307, // Specify the desired port here
+// });
+
 app.get("/appointments",(req,res)=>{
   const q="SELECT * from appointments"
   db.query(q,(err,data)=>{
