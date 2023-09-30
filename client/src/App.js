@@ -3,7 +3,7 @@ import "./App.css";
 import Header from "./components/Header.js";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
-import Login from "./components/Login";
+import LoginOptions from "./components/LoginOptions";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard.js";
 import {BrowserRouter, BrowserRouter as Router,Route,Routes,} from "react-router-dom";
@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Dashboard />} />
 
-          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/login_options" element={<LoginOptions />} />
           <Route exact path="/adminlogin" element={<AdminLogin />} />
           <Route exact path="/userlogin" element={<UserLogin />} />
           <Route exact path="/hospitallogin" element={<HospitalLogin />} />

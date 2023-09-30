@@ -14,18 +14,26 @@ import { Button } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import usericon from "./usericon.png";
 import bloodgroup from "./bloodgroup.jpg";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
+import bg_image1 from "./bgimage1.jpeg";
+
 const Dashboard = () => {
+
+  const navigate = useNavigate("");
 
   const[appnt,setappnt] = useState([])
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior:"smooth"
+    })
     const fetchappnts = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/appnts")
+      const res = await axios.get("http://localhost:8801/api/appointments/donated")
       setappnt(res.data);
       console.log(res)
     }
@@ -40,12 +48,13 @@ const Dashboard = () => {
   return (
     <>
       <Header />
-      <Carousel>
+      <Carousel style={{ marginTop: "80px" }}>
         <Carousel.Item>
           <img
-            className="c1"
-            src={bg_image}
+            className="d-block w-100"
+            src={bg_image1}
             alt="One Blood Donation saves Three Lives every day"
+            style={{height:"90vh"}}
           />
           {/* <Carousel.Caption>
           <h3></h3>
@@ -53,7 +62,7 @@ const Dashboard = () => {
         </Carousel.Caption> */}
         </Carousel.Item>
         <Carousel.Item>
-          <img className="d-block w-100" src={carousel2} alt="Second slide" />
+          <img className="d-block w-100" src={bg_image} alt="Second slide" />
 
           {/* <Carousel.Caption>
           <h3>Second slide label</h3>
@@ -158,25 +167,38 @@ const Dashboard = () => {
         <Grid container spacing={12}>
           <Grid item xs={1.5}></Grid>
 
-          
-
-          {appnt.map(appnts => (
-            <Grid item xs={3}>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={usericon} className="usericon" />
-              <Card.Body style={{ color: "black" }}>
-                <Card.Title>{appnts.app_name}</Card.Title>
-                <Card.Text align="left">
-                  Email: {appnts.app_email}
-                  <br></br>
-                  Blood Group: {appnts.app_blood_type}
-                </Card.Text>
-                {/* <Button variant="primary">Request</Button> */}
-              </Card.Body>
-            </Card>
-          </Grid>
-          ))}
-{/* 
+          {appnt.length > 0 ? (
+            appnt.map((appnts) => (
+              <Grid item xs={3}>
+                <Card style={{ width: "18rem" }}>
+                  <Card.Img variant="top" src={usericon} className="usericon" />
+                  <Card.Body style={{ color: "black" }}>
+                    <Card.Title>{appnts.app_name}</Card.Title>
+                    <Card.Text align="left">
+                      Email: {appnts.app_email}
+                      <br></br>
+                      Blood Group: {appnts.app_blood_type}
+                    </Card.Text>
+                    {/* <Button variant="primary">Request</Button> */}
+                  </Card.Body>
+                </Card>
+              </Grid>
+            ))
+          ) : (
+            <Grid item xs={12}>
+              <Typography
+                variant="h5"
+                style={{
+                  textAlign: "center",
+                  // fontSize: "24px",
+                  fontFamily: "Montserrat, sans-serif",
+                }}
+              >
+                Data Not Available
+              </Typography>
+            </Grid>
+          )}
+          {/* 
           <Grid item xs={3}>
             <Card style={{ width: "18rem" }}>
               <Card.Img variant="top" src={usericon} className="usericon" />
@@ -327,7 +349,7 @@ const Dashboard = () => {
                   width: "115%",
                 }}
                 align="left"
-                href="/userlogin"
+                onClick={() => navigate("/userlogin")}
               >
                 <p
                   className="donorbutton"

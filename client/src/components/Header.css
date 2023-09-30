@@ -4,7 +4,7 @@ img{
 }
 
 .color-nav{
-    background-color: rgb(255, 0, 0);
+    /* background-color: rgb(255, 0, 0); */
 }
 
 /* .navbar-brand, .navbar-link, .navbar-dropdown{
@@ -19,5 +19,10 @@ img{
 
 nav-brand:hover{
     color:rgb(57, 57, 57);
+}
+
+.active-link {
+  color: black;
+  font-weight: bold;
 }
 

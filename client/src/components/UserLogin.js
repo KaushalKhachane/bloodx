@@ -80,7 +80,7 @@ const navigate = useNavigate()
     
     <Header/>
     {/* <ThemeProvider theme={theme}> */}
-      <Grid container component="main" sx={{ height: '100vh'}}>
+      <Grid container component="main" sx={{ height: '100vh', marginTop:"80px"}}>
       
         {/* <Grid
           item
