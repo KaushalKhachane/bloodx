@@ -120,15 +120,23 @@ function DashboardContent() {
   }
   React.useEffect(()=>{
     const fetchappnt = async()=>{
-    try{
-      const res = await axios.get("http://localhost:8801/appointments")
-      setappnt(res.data);
-      console.log(res)
-    }
-       
-      catch(err){
-        console.log(err)
+      try {
+        const response = await fetch("http://localhost:8801/api/appointments/all", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        
+        });
+
+        const data = await response.json();
+        setappnt(data);
+        console.log(data);
+        
+      } catch (err) {
+        console.error(err);
       }
+      
     }
     fetchappnt();
   },[])

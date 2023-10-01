@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -8,17 +8,26 @@ import './Header.css'
 import Button from 'react-bootstrap/Button';
 import AdminDashboard from './AdminDashboard';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { ArrowRightOnRectangleIcon, HomeIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import { InformationCircleIcon  } from "@heroicons/react/24/outline";
+import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon, HomeIcon,   } from "@heroicons/react/24/solid";
+import {
+  InformationCircleIcon,
+  UserCircleIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import { PhoneIcon } from "@heroicons/react/24/solid";
 
-export const Header = () => {
+export const Header = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate("");
   let Headerstyle={
     paddingRight:"50px",
     color:"white",
-    font: "16px Montserrat, sans-serif"
+    font: "16px Montserrat, sans-serif",
+    margin: "auto",
+    
   }
   let Headerhead={
     color:"white",
@@ -33,12 +42,30 @@ export const Header = () => {
     borderColor:"white",
   };
 
+
+  const handleProfileDropdown = () => { 
+      setIsDropdownOpen(!isDropdownOpen);
+  }
+
+  const handleLogout = () => { 
+    localStorage.removeItem("token")
+    localStorage.removeItem("user_type")
+    localStorage.removeItem("user_name");
+    
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/");
+    },1000)
+  }
+
   return (
     <html>
       <head>
         <link rel="stylesheet" href="styles.css"></link>
       </head>
       <body>
+        {loading && <div id="loader" className="lds-dual-ring overlay" />}
         <Navbar
           collapseOnSelect
           expand="lg"
@@ -49,6 +76,7 @@ export const Header = () => {
             position: "fixed",
             width: "100%",
             marginBottom: "20px",
+            height: "80px",
             background:
               "linear-gradient(to bottom right,rgba(100,0,0,1), rgba(255,0,0,1) ,rgba(100,0,0,1))",
           }}
@@ -65,8 +93,8 @@ export const Header = () => {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto"></Nav>
-              <Nav>
+              <Nav className="me-auto" style={{ marginLeft: "520px" }}></Nav>
+              <Nav style={{ width: "max-content" }}>
                 <Nav.Link
                   className={`navbar-link ${
                     location.pathname === "/" ? "active-link" : ""
@@ -138,21 +166,109 @@ export const Header = () => {
                   />
                   Admin
                 </Nav.Link> */}
-                <Button
-                  className="button"
-                  onClick={() => navigate("/login_options")}
-                  style={HeaderButton}
-                >
-                  <ArrowRightOnRectangleIcon
-                    style={{
-                      height: "20px",
-                      width: "20px",
-                      marginTop: "-5px",
-                      marginRight: "10px",
-                    }}
-                  />
-                  Login
-                </Button>
+                {localStorage.getItem("token") !== null ? (
+                  <>
+                    <div>
+                      <Nav.Link
+                        className="button"
+                        onClick={handleProfileDropdown}
+                        style={{
+                          ...Headerstyle,
+                          border: "none",
+                          textOverflow: "hidden",
+                          marginTop: "20px",
+                        }}
+                      >
+                        <p
+                          style={{
+                            maxHeight: "25px",
+                            maxWidth: "180px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <UserCircleIcon
+                            style={{
+                              height: "24px",
+                              width: "24px",
+                              marginTop: "-2px",
+                              marginRight: "10px",
+                              marginLeft: "10px",
+                            }}
+                          /> 
+                          Hi, {localStorage.getItem("user_name")}
+                        </p>
+                      </Nav.Link>
+                      {isDropdownOpen && (
+                        <div
+                          style={{
+                            background:
+                              "linear-gradient(to bottom right,rgba(100,0,0,1), rgba(255,0,0,1) ,rgba(100,0,0,1))",
+                            position: "absolute",
+                            width: "180px",
+                            borderRadius: "10px",
+                            marginTop: "0px",
+                            textAlign: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                            padding: "5px",
+                          }}
+                        >
+                          <Button
+                            onClick=""
+                            style={{
+                              background: "transparent",
+                              border: "none",
+                            }}
+                          >
+                            <UserIcon
+                              style={{
+                                height: "20px",
+                                width: "20px",
+                                marginTop: "-2px",
+                                marginRight: "10px",
+                              }}
+                            />
+                            Profile
+                          </Button>
+                          <Button
+                            onClick={handleLogout}
+                            style={{
+                              background: "transparent",
+                              border: "none",
+                            }}
+                          >
+                            <ArrowLeftOnRectangleIcon
+                              style={{
+                                height: "20px",
+                                width: "20px",
+                                marginTop: "-2px",
+                                marginRight: "10px",
+                              }}
+                            />
+                            Logout
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <Button
+                    className="button"
+                    onClick={() => navigate("/login_options")}
+                    style={HeaderButton}
+                  >
+                    <ArrowRightOnRectangleIcon
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                        marginTop: "-5px",
+                        marginRight: "10px",
+                      }}
+                    />
+                    Login
+                  </Button>
+                )}
+
                 {/* <NavDropdown className="navbar-dropdown" title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item className="navbar-dropdown-item" href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item className="navbar-dropdown-item" href="#action/3.2">

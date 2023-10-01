@@ -13,7 +13,7 @@ router.get("/all", async (req, res) => {
   }
 });
 
-
+  
 router.post("/create", async (req, res) => {
   try {
     const newAppointment = new Appointment({
@@ -30,10 +30,10 @@ router.post("/create", async (req, res) => {
     });
 
     await newAppointment.save();
-    res.json("Appointment has been booked successfully.");
+    res.json({status:"success", message: "Appointment has been booked successfully." });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({status:"unsuccess",  message: "Internal Server Error" });
   }
 });
 

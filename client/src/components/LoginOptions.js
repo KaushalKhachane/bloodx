@@ -37,14 +37,14 @@ const theme = createTheme();
 function Login() {
 
   const navigate = useNavigate("");
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
 
   return (
     <>
@@ -94,7 +94,7 @@ function Login() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
               <Button
@@ -108,9 +108,14 @@ function Login() {
                   bgcolor: "red",
                   font: "18px Montserrat, sans-serif",
                 }}
-                onClick={() => navigate("/userlogin")}
+                onClick={() =>
+                  localStorage.getItem("token") &&
+                  localStorage.getItem("user_type") === "donor"
+                    ? navigate("/userdashboard")
+                    : navigate("/userlogin")
+                }
               >
-                <b> 
+                <b>
                   <ArrowRightOnRectangleIcon
                     style={{
                       height: "22px",
@@ -172,7 +177,7 @@ function Login() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
               <Button
@@ -186,7 +191,12 @@ function Login() {
                   bgcolor: "red",
                   font: "18px Montserrat, sans-serif",
                 }}
-                onClick={() => navigate("/hospitallogin")}
+                onClick={() =>
+                  localStorage.getItem("token") &&
+                  localStorage.getItem("user_type") === "hospital"
+                    ? navigate("/hospitaldashboard")
+                    : navigate("/hospitallogin")
+                }
               >
                 <b>
                   <ArrowRightOnRectangleIcon
@@ -249,7 +259,7 @@ function Login() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
               <Button
@@ -263,8 +273,12 @@ function Login() {
                   bgcolor: "red",
                   font: "18px Montserrat, sans-serif",
                 }}
-                
-                onClick={() => navigate("/adminlogin")}
+                onClick={() =>
+                  localStorage.getItem("token") &&
+                  localStorage.getItem("user_type") === "admin"
+                    ? navigate("/admindashboard")
+                    : navigate("/adminlogin")
+                }
               >
                 <b>
                   <ArrowRightOnRectangleIcon
@@ -285,7 +299,7 @@ function Login() {
         </Grid>
       </Grid>
       {/* </ThemeProvider> */}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

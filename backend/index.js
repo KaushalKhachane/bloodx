@@ -1,9 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import usersRouter from "./routes/Users.js"; 
-import appointmentsRouter from "./routes/Appointments.js"; 
-import hospitalsRouter from "./routes/Hospitals.js"; 
+import usersRouter from "./routes/Users.js";
+import appointmentsRouter from "./routes/Appointments.js";
+import hospitalsRouter from "./routes/Hospitals.js";
 import bloodRequestRouter from "./routes/BloodRequests.js";
 import bloodStockRouter from "./routes/BloodStock.js";
 import adminRouter from "./routes/Admin.js";
@@ -18,7 +18,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 app.use("/api/users", usersRouter);
 app.use("/api/appointments", appointmentsRouter);
 app.use("/api/hospitals", hospitalsRouter);
@@ -28,11 +27,14 @@ app.use("/api/admin", adminRouter);
 
 let otp;
 app.post("/send-otp", async (req, res) => {
-  const { user_email, user_type } = req.body;
+  const { user_email } = req.body;
+
   const user = await User.findOne({ user_email });
 
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res
+      .status(404)
+      .json({ status: "unsucess", message: "User Not Found, Proceed to Signup !!" });
   }
 
   otp = otpGenerator.generate(6, {
@@ -46,7 +48,7 @@ app.post("/send-otp", async (req, res) => {
     service: "Gmail",
     auth: {
       user: "khachanekn29@gmail.com",
-      pass: "nzqboskwgmfaxfsw"
+      pass: "nzqboskwgmfaxfsw",
     },
   });
 
@@ -59,28 +61,30 @@ app.post("/send-otp", async (req, res) => {
 
   transporter.sendMail(mailOptions, async (error, info) => {
     if (error) {
-      return res.status(500).json({ message: "Error sending OTP", error:error });
+      return res.status(500).json({
+        status: "unsucess",
+        message: "Error sending OTP !!",
+        error: error,
+      });
     }
-
-    res.status(200).json({ message: "OTP sent successfully" });
+    res
+      .status(200)
+      .json({ status: "success", message: "OTP sent successfully !!" });
   });
+  console.log(otp)
 });
 
 app.post("/verify-otp", async (req, res) => {
   const { user_otp } = req.body;
   const { user_email } = req.body;
   const user = await User.findOne({ user_email });
-
   if (user_otp !== otp) {
-    return res.status(401).json({ message: "Invalid OTP" });
+    return res.status(401).json({ status:"unsuccess", message: "Invalid OTP !!" });
   }
 
-  const donor_token = jwt.sign({ userId: user._id }, "my-secret-key", {});
-  localStorage.setItem("donor_token", donor_token);
-  localStorage.setItem("user_type", "donor");
-  res.status(200).json({ token });
+  const token = jwt.sign({ userId: user._id }, "my-secret-key", {});
+  res.status(200).json({ status:"success", message:"OTP Verified Successfully !!", token: token, user_type: "donor", user_name: user.user_name, });
 });
-
 
 const PORT = process.env.PORT || 8801;
 

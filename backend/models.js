@@ -10,8 +10,10 @@ const userSchema = new mongoose.Schema({
 });
 
 const adminSchema = new mongoose.Schema({
+  admin_email: String,
   admin_name: String,
   admin_password: String,
+  admin_phone_no: String,
 });
 
 const appointmentSchema = new mongoose.Schema({

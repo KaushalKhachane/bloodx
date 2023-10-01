@@ -94,18 +94,18 @@ function DashboardContent() {
   const[avgage,setage] = useState([])
 
   React.useEffect(()=>{
-    const fetchage = async()=>{
-    try{
-      const res = await axios.get("http://localhost:8801/avgdonorage")
-      setage(res.data);
-      console.log(res)
-    }
+    // const fetchage = async()=>{
+    // try{
+    //   const res = await axios.get("http://localhost:8801/api/avgdonorage")
+    //   setage(res.data);
+    //   console.log(res)
+    // }
        
-      catch(err){
-        console.log(err)
-      }
-    }
-    fetchage();
+    //   catch(err){
+    //     console.log(err)
+    //   }
+    // }
+    // fetchage();
   },[])
 
   return (
@@ -252,7 +252,7 @@ function DashboardContent() {
           </Container>
         </Box>
       </Box>
-      <Footer/>
+      {/* <Footer/> */}
       <Outlet/>
     </ThemeProvider>
     

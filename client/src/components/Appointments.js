@@ -30,25 +30,45 @@ const Appointments = ()=>{
   }
 
   const handleUpdate = async(app_email)=>{
-    try{
-      await axios.put("http://localhost:8801/appointments/"+app_email );
-      window.location.reload()
-    }catch(err){
-      console.log(err);
+    try {
+      const response = await fetch(
+        `http://localhost:8801/api/appointments/update/${app_email}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ app_email: app_email }),
+        }
+      );
+
+      const data = await response.json();
+      setappnt(data);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
     }
   }
 
   React.useEffect(()=>{
     const fetchappnt = async()=>{
-    try{
-      const res = await axios.get("http://localhost:8801/appointments")
-      setappnt(res.data);
-      console.log(res)
+    try {
+      const response = await fetch(
+        "http://localhost:8801/api/appointments/all",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+      setappnt(data);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
     }
-       
-      catch(err){
-        console.log(err)
-      }
     }
     fetchappnt();
   },[])

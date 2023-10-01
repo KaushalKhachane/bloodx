@@ -24,17 +24,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 import Select from "@mui/material/Select";
-import DatePicker from "react-datepicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { CDatePicker } from '@coreui/react-pro'
-
-import "react-datepicker/dist/react-datepicker.css";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import ReactDatePicker from "react-datepicker";
 
 const UserDashboard = () => {
+  const [loading, setLoading] = useState(false);
+  const [warningText, setWarningText] = useState("");
+  const [successText, setSuccessText] = useState("");
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   const data = new FormData(event.currentTarget);
@@ -44,26 +42,18 @@ const UserDashboard = () => {
   //   });
   // };
 
-  const [appointment, addAppointment] = useState({
-    app_email: "",
-    app_name: "",
-    app_phone_no: null,
-    app_age: null,
-    app_diabetic: "",
-    app_donated:"N",
-    app_camp_address:"",
-    app_date:"new Date()",
-    app_time:null,
-    app_blood_type:"",
-  });
+  const [app_email, setAppEmail] = useState("");
+  const [app_name, setAppName] = useState("");
+  const [app_phone_no, setAppPhoneNo] = useState("");
+  const [app_age, setAppAge] = useState("");
+  const [app_diabetic, setAppDiabetic] = useState("");
+  const [app_donated, setAppDonated] = useState("N");
+  const [app_camp_address, setAppCampAddress] = useState("");
+  const [app_date, setAppDate] = useState("");
+  const [app_time, setAppTime] = useState("");
+  const [app_blood_type, setAppBloodType] = useState("");
 
-  const handleChange = (e) => {
-    addAppointment((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  
-  };
-  
   const navigate = useNavigate();
-
 
   // const [value, setValue] = React.useState(null);
   // const handleChange1 = (e1) => {
@@ -72,20 +62,70 @@ const UserDashboard = () => {
   //   setTime((prev) => ({ ...prev, [e1.target.innerText]: e1.target.innerText }));
   // };
 
-  const handleClick = async e => {
+  const handleClick = async (e) => {
     e.preventDefault();
+    if (
+      !app_email ||
+      !app_name ||
+      !app_phone_no ||
+      !app_age ||
+      !app_diabetic ||
+      !app_donated ||
+      !app_camp_address ||
+      !app_date ||
+      !app_time ||
+      !app_blood_type
+    ) {
+      setWarningText("All fields are required !!");
+      setTimeout(() => {
+        setWarningText("");
+      }, 1500);
+      return;
+    }
+
+    const appointment = JSON.stringify({
+      app_email: app_email,
+      app_name: app_name,
+      app_phone_no: app_phone_no,
+      app_age: app_age,
+      app_diabetic: app_diabetic,
+      app_donated: app_donated,
+      app_camp_address: app_camp_address,
+      app_date: app_date,
+      app_time: app_time,
+      app_blood_type: app_blood_type,
+    });
+
     try {
-      await axios.post("http://localhost:8801/bookappnts", appointment);
-      navigate("/userlogin")
-      // navigate("/admindashboard")
+      const response = await fetch(
+        "http://localhost:8801/api/appointments/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: appointment,
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        setSuccessText(data.message);
+        setTimeout(() => {
+          setSuccessText("");
+          // navigate("/admindashboard");
+        }, 2000);
+      } else {
+        setWarningText(data.message);
+        setTimeout(() => {
+          setWarningText("");
+        }, 2000);
+      }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
-
-  console.log(appointment);
-
-  
 
   const [authenticated, setauthenticated] = useState(null);
   useEffect(() => {
@@ -104,7 +144,7 @@ const UserDashboard = () => {
         <Container
           component="main"
           maxWidth="sm"
-          style={{ marginBottom: "100px" }}
+          style={{ marginBottom: "100px", marginTop: "100px" }}
         >
           <Grid
             item
@@ -117,7 +157,7 @@ const UserDashboard = () => {
             style={{
               marginTop: "10px",
               borderRadius: "10px",
-              height: "750px",
+              height: "900px",
               maxWidth: "600px",
               marginBottom: "0px",
             }}
@@ -143,12 +183,7 @@ const UserDashboard = () => {
                 <Typography component="h1" variant="h5">
                   Book Your Donation Appointment
                 </Typography>
-                <Box
-                  component="form"
-                  noValidate
-                
-                  sx={{ mt: 3 }}
-                >
+                <Box component="form" noValidate sx={{ mt: 3 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <TextField
@@ -159,7 +194,7 @@ const UserDashboard = () => {
                         id="name"
                         label="Name"
                         autoFocus
-                        onChange={handleChange}
+                        onChange={(e) => setAppName(e.target.value)}
                       />
                     </Grid>
 
@@ -171,7 +206,7 @@ const UserDashboard = () => {
                         label="Email Address"
                         name="app_email"
                         autoComplete="email"
-                        onChange={handleChange}
+                        onChange={(e) => setAppEmail(e.target.value)}
                       />
                     </Grid>
 
@@ -184,10 +219,10 @@ const UserDashboard = () => {
                         type="number"
                         id="phno"
                         autoComplete="Phno"
-                        onChange={handleChange}
+                        onChange={(e) => setAppPhoneNo(e.target.value)}
                       />
                     </Grid>
-                    
+
                     <Grid item xs={4}>
                       <TextField
                         required
@@ -197,27 +232,12 @@ const UserDashboard = () => {
                         type="number"
                         id="age"
                         autoComplete="age"
-                        onChange={handleChange}
+                        onChange={(e) => setAppAge(e.target.value)}
                       />
                     </Grid>
 
                     <Grid item xs={4}>
-                    <TextField
-                        required
-                        fullWidth
-                        name="app_blood_type"
-                        label="Blood Group"
-                        type="text"
-                        id="blood_group"
-                        autoComplete="blood_group"
-                        onChange={handleChange}
-                      />
-                    </Grid>
-
-                    
-
-                    <Grid item xs={4}>
-                    <TextField
+                      <TextField
                         required
                         fullWidth
                         name="app_camp_address"
@@ -225,8 +245,31 @@ const UserDashboard = () => {
                         type="text"
                         id="blood_group"
                         autoComplete="blood_group"
-                        onChange={handleChange}
+                        onChange={(e) => setAppCampAddress(e.target.value)}
                       />
+                    </Grid>
+
+                    <Grid item xs={8}>
+                      <InputLabel htmlFor="demo-simple-select">
+                        Blood Type
+                      </InputLabel>
+                      <Select
+                        fullWidth
+                        id="demo-simple-select"
+                        // value={app_blood_type}
+                        label="Blood Type"
+                        placeholder="Blood Type"
+                        onChange={(e) => setAppBloodType(e.target.value)}
+                      >
+                        <MenuItem value="A+">A+</MenuItem>
+                        <MenuItem value="A-">A-</MenuItem>
+                        <MenuItem value="B+">B+</MenuItem>
+                        <MenuItem value="B-">B-</MenuItem>
+                        <MenuItem value="AB+">AB+</MenuItem>
+                        <MenuItem value="AB">AB-</MenuItem>
+                        <MenuItem value="O+">O+</MenuItem>
+                        <MenuItem value="O-">O-</MenuItem>
+                      </Select>
                     </Grid>
 
                     <Grid item xs={12}>
@@ -242,14 +285,14 @@ const UserDashboard = () => {
                           <FormControlLabel
                             value="Y"
                             name="app_diabetic"
-                            onChange={handleChange}
+                            onChange={(e) => setAppDiabetic(e.target.value)}
                             control={<Radio />}
                             label="Yes"
                           />
                           <FormControlLabel
                             value="N"
                             name="app_diabetic"
-                            onChange={handleChange}
+                            onChange={(e) => setAppDiabetic(e.target.value)}
                             control={<Radio />}
                             label="No"
                           />
@@ -258,37 +301,76 @@ const UserDashboard = () => {
                     </Grid>
 
                     <Grid item xs={6}>
-                    <TextField
+                      {/* <TextField
                         required
                         fullWidth
                         id="email"
                         label="Appointment Date"
                         name="app_date"
                         autoComplete="email"
-                        onChange={handleChange}
+                        onChange={(e) => setAppDate(e.target.value)}
+                      /> */}
+                      <InputLabel htmlFor="demo-simple-select">
+                        Date
+                      </InputLabel>
+                      <TextField
+                        name="someDate"
+                        type="date"
+                        onChange={(e) => setAppDate(e.target.value)}
                       />
                     </Grid>
 
-                  <Grid item xs={3}></Grid>
+                    <Grid item xs={3}></Grid>
                     <Grid item xs={6}>
-                    <TextField
-                        required
+                      <InputLabel htmlFor="demo-simple-select">Time</InputLabel>
+                      <Select
                         fullWidth
-                        name="app_time"
-                        label="Time Slot (10:00/2:00/5:00)"
-                        type="text"
-                        id="blood_group"
-                        autoComplete="blood_group"
-                        onChange={handleChange}
-                      />
+                        id="demo-simple-select"
+                        value={app_time}
+                        onChange={(e) => setAppTime(e.target.value)}
+                      >
+                        <MenuItem value="10:00AM">10:00 AM</MenuItem>
+                        <MenuItem value="2:00PM">2:00 PM</MenuItem>
+                        <MenuItem value="5:00PM">5:00 PM</MenuItem>
+                      </Select>
                     </Grid>
                   </Grid>
+
+                  <div
+                    style={{
+                      display: warningText ? "block" : "none",
+                      textAlign: "center",
+                      marginLeft: "0px",
+                      marginTop: "10px",
+                      maxWidth: "710px",
+                      marginBottom: "-10px",
+                      fontSize: "14px",
+                    }}
+                    className="alert alert-warning"
+                  >
+                    {warningText}
+                  </div>
+
+                  <div
+                    style={{
+                      display: successText ? "block" : "none",
+                      textAlign: "center",
+                      marginTop: "10px",
+                      maxWidth: "710px",
+                      marginBottom: "-10px",
+                      fontSize: "14px",
+                    }}
+                    className="alert alert-success"
+                  >
+                    {successText}
+                  </div>
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     onClick={handleClick}
+                    style={{ backgroundColor: "red" }}
                   >
                     Book Appointment
                   </Button>
@@ -297,7 +379,7 @@ const UserDashboard = () => {
             </Box>
           </Grid>
         </Container>
-        <Footer />
+        {/* <Footer /> */}
       </>
     );
   }

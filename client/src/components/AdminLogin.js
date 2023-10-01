@@ -45,43 +45,70 @@ function AdminLogin() {
   // };
 
   const validateForm = React.useRef();
-
-  const [admin_name, setAdminName] = useState("");
+  const [warningText, setWarningText] = useState("");
+  const [successText, setSuccessText] = useState("");
+  const [admin_email, setAdminEmail] = useState("");
   const [admin_password, setAdminPassword] = useState("");
   const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
   const [loginStatus, setLoginStatus] = useState("");
 
 const navigate = useNavigate()
 
-    const handleClick = async e =>{
-      e.preventDefault()
-        await axios.post("http://localhost:8801/adminlogin",{
-          admin_name:admin_name,
-          admin_password:admin_password,
-        })
-        .then((response)=>{
-          if(response.data.message){
-            setLoginStatus(response.data.message);
-          }else{
-            setLoginStatus(response.data[0].admin_email);
-            setauthenticated(true)
-            localStorage.setItem("authenticated", true);
-            navigate("/admindashboard")
-          }
-        })
-        .catch(err=>{
-          console.log(err);
-        })
-          // navigate("/userdashboard")   
+    const handleClick = async (e) => {
+      e.preventDefault();
+
+      if (!admin_email || !admin_password) {
+        setWarningText("All fields are required!!");
+        setTimeout(() => {
+          setWarningText("");
+        }, 2000);
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:8801/api/admin/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            admin_email: admin_email,
+            admin_password: admin_password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+          setSuccessText(data.message);
+          localStorage.setItem("user_type", "admin");
+          localStorage.setItem("user_name", data.admin_name);
+          localStorage.setItem("token", data.token);
+          setTimeout(() => {
+            setSuccessText("");
+            navigate("/admindashboard");
+          }, 2000);
+        } else {
+          setWarningText(data.message);
+          setTimeout(() => {
+            setWarningText("");
+          }, 2000);
+        }
+      } catch (err) {
+        console.error(err);
+      }
     };
+
   
   return (
     <>
-    
-    <Header/>
-    {/* <ThemeProvider theme={theme}> */}
-      <Grid container component="main" sx={{ height: '100vh', marginTop:"80px"}}>
-      
+      <Header />
+      {/* <ThemeProvider theme={theme}> */}
+      <Grid
+        container
+        component="main"
+        sx={{ height: "100vh", marginTop: "80px" }}
+      >
         {/* <Grid
           item
           xs={false}
@@ -96,30 +123,50 @@ const navigate = useNavigate()
             backgroundPosition: 'center',
           }}
         /> */}
-        <Grid item xs={3.6}>
-
-        </Grid>
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={10} square style={{marginTop:"35px", borderRadius:"10px", height:"550px",color:"red", marginBottom:'0px'}}>
+        <Grid item xs={3.6}></Grid>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={10}
+          square
+          style={{
+            marginTop: "35px",
+            borderRadius: "10px",
+            height: "550px",
+            color: "red",
+            marginBottom: "0px",
+          }}
+        >
           <Box
             sx={{
               my: 4,
               mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'red' }}>
+            <Avatar sx={{ m: 1, bgcolor: "red" }}>
               <LockOutlinedIcon />
             </Avatar>
             <hr color="red"></hr>
-            <Typography component="h1" variant="h5" style={{font:" 25px Montserrat, sans-serif"}}>
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{ font: " 25px Montserrat, sans-serif" }}
+            >
               <b>Admin Login</b>
             </Typography>
-          <br></br>
-            <Box component="form" noValidate  sx={{ mt: 1 }}>
-              
+            <br></br>
+            <Box
+              component="form"
+              noValidate
+              sx={{ mt: 1 }}
+              style={{ width: "75%" }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -130,7 +177,7 @@ const navigate = useNavigate()
                 autoComplete="email"
                 autoFocus
                 onChange={(e) => {
-                  setAdminName(e.target.value);
+                  setAdminEmail(e.target.value);
                 }}
               />
               <TextField
@@ -146,30 +193,61 @@ const navigate = useNavigate()
                   setAdminPassword(e.target.value);
                 }}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
+              <div
+                style={{
+                  display: warningText ? "block" : "none",
+                  textAlign: "center",
+                  marginLeft: "0px",
+                  marginTop: "10px",
+                  maxWidth: "710px",
+                  marginBottom: "-10px",
+                }}
+                className="alert alert-warning"
+              >
+                {warningText}
+              </div>
+
+              <div
+                style={{
+                  display: successText ? "block" : "none",
+                  textAlign: "center",
+                  marginTop: "10px",
+                  maxWidth: "710px",
+                  marginBottom: "-10px",
+                }}
+                className="alert alert-success"
+              >
+                {successText}
+              </div>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 onClick={handleClick}
-                sx={{ mt: 3, mb: 3,p:1, bgcolor:'red' ,font:"18px Montserrat, sans-serif"}}
+                style={{
+                  marginLeft: "140px",
+                  width: "150px",
+                  borderRadius: "15px",
+                }}
+                sx={{
+                  mt: 3,
+                  mb: 3,
+                  p: 1,
+                  bgcolor: "red",
+                  font: "18px Montserrat, sans-serif",
+                }}
               >
-
                 <b>Sign In</b>
               </Button>
-              
-              
+
               {/* <Copyright sx={{ mt: 5 }} /> */}
             </Box>
           </Box>
         </Grid>
-        
       </Grid>
-    {/* </ThemeProvider> */}
-    <Footer/>
+      {/* </ThemeProvider> */}
+      <Footer />
     </>
   );
 }
