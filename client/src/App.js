@@ -22,7 +22,7 @@ import AppointmentsList from "./components/AppointmentsList";
 import Stock from "./components/Stock";
 import BloodGroup from "./components/BloodGroup";
 import MainDonor from "./components/MainDonor";
-
+import UserProfile from "./components/UserProfile";
 
 function App() {
   return (
@@ -54,6 +54,8 @@ function App() {
             path="/hospitaldashboard"
             element={<HospitalDashboard />}
           />
+          <Route exact path="/userProfile" element={<UserProfile/>} />
+          
         </Routes>
       </Router>
     </>

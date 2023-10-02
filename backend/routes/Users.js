@@ -5,6 +5,13 @@ const router = express.Router();
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+import {storage} from "../firebase.js"
+import { ref, uploadBytes } from "firebase/storage";
+
+import multer from 'multer';
+const upload = multer();
+
+
 
 router.post("/signup", async (req, res) => {
   try {
@@ -55,6 +62,47 @@ router.get("/login", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// router.post('/userProfile', async (req, res) => {
+//   const {imageUpload} = req.body;
+//   console.log(imageUpload)
+//   const storageRef = ref(storage, 'images/' + imageUpload.name);
+
+//    // Upload the image file to the specified path
+//    return uploadBytes(storageRef, imageUpload)
+//    .then((snapshot) => {
+//      console.log("Image uploaded successfully!", snapshot);
+//      // You can retrieve the download URL for the uploaded image
+//     //  return getDownloadURL(storageRef);
+//      console.log("Image uploaded successfully!", getDownloadURL(storageRef));
+//    })
+//    .catch((error) => {
+//      console.error("Error uploading image:", error);
+//    });
+  
+// });
+
+router.post("/userProfile", upload.single("file"), (req, res) => {
+  // console.log("hello");
+  const {file} = req;
+  console.log(file);
+  try {
+    if (!file) {
+      return res.status(400).json({ error: "No file provided" });
+    }
+
+    // const file = req.files.file;
+
+    // Upload the file to Firebase Storage
+    const fileRef = storage.ref("images/" + file.name);
+    fileRef.put(file.data).then(() => {
+      return res.status(200).json({ message: "File uploaded successfully" });
+    });
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    res.status(500).json({ error: error[0] });
   }
 });
 

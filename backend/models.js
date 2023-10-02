@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   user_gender: String,
   user_address: String,
   user_password: String,
+  user_photo : String
 });
 
 const adminSchema = new mongoose.Schema({
