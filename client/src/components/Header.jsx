@@ -31,7 +31,7 @@ export const Header = (props) => {
   }
   let Headerhead={
     color:"white",
-    font: "30px Montserrat, sans-serif",
+    font: "30px Poppins",
     cursor: "pointer"
   }
   let HeaderButton = {
@@ -62,7 +62,7 @@ export const Header = (props) => {
   return (
     <html>
       <head>
-        <link rel="stylesheet" href="styles.css"></link>
+        {/* <link rel="stylesheet" href="./styles.css"></link> */}
       </head>
       <body>
         {loading && <div id="loader" className="lds-dual-ring overlay" />}

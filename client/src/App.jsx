@@ -1,11 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Header from "./components/Header.js";
+import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import LoginOptions from "./components/LoginOptions";
 import AdminLogin from "./components/AdminLogin";
-import AdminDashboard from "./components/AdminDashboard.js";
+import AdminDashboard from "./components/AdminDashboard";
 import {BrowserRouter, BrowserRouter as Router,Route,Routes,} from "react-router-dom";
 import HospitalLogin from "./components/HospitalLogin";
 import UserLogin from "./components/UserLogin";

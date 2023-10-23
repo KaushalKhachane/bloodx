@@ -12,8 +12,8 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Footer from "./Footer.js";
-import Header from "./Header.js";
+import Footer from "./Footer";
+import Header from "./Header";
 import bloodbg from "./bloodbg.jpg";
 
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";

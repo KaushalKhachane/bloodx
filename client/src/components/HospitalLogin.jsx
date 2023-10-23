@@ -12,8 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 
-import Footer from './Footer.js';
-import Header from './Header.js';
+import Footer from './Footer';
+import Header from './Header';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
