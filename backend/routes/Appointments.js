@@ -1,5 +1,8 @@
 import express from "express";
-import { Appointment } from "../models.js";
+import { Appointment, User } from "../models.js";
+
+import authenticateToken from "../middlewares/authMiddleware.js";
+
 
 const router = express.Router();
 
@@ -13,9 +16,33 @@ router.get("/all", async (req, res) => {
   }
 });
 
-  
-router.post("/create", async (req, res) => {
+router.get("/fetch_user_appointments", authenticateToken, async (req, res) => {
   try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "unsuccess", message: "User not found." });
+    }
+    const appointments = await Appointment.find({ user: userId });
+    res.status(200).json({ context: appointments });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+  
+router.post("/create", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "unsuccess", message: "User not found." });
+    }
     const newAppointment = new Appointment({
       app_email: req.body.app_email,
       app_name: req.body.app_name,
@@ -27,6 +54,7 @@ router.post("/create", async (req, res) => {
       app_date: req.body.app_date,
       app_time: req.body.app_time,
       app_donated: req.body.app_donated,
+      user: userId,
     });
 
     await newAppointment.save();

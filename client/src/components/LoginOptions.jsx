@@ -35,7 +35,6 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 function Login() {
-
   const navigate = useNavigate("");
   // const handleSubmit = (event) => {
   //   event.preventDefault();
@@ -114,18 +113,21 @@ function Login() {
                     ? navigate("/userdashboard")
                     : navigate("/userlogin")
                 }
+                style={{
+                  display: "flex",
+                  fontWeight: "700",
+                  alignItems: "center",
+                }}
               >
-                <b>
-                  <ArrowRightOnRectangleIcon
-                    style={{
-                      height: "22px",
-                      width: "22px",
-                      marginRight: "5px",
-                      marginTop: "-5px",
-                    }}
-                  />
-                  Proceed
-                </b>
+                <ArrowRightOnRectangleIcon
+                  style={{
+                    height: "22px",
+                    width: "22px",
+                    marginRight: "5px",
+                    marginTop: "-5px",
+                  }}
+                />
+                Proceed
               </Button>
 
               {/* <Copyright sx={{ mt: 5 }} /> */}
@@ -197,18 +199,21 @@ function Login() {
                     ? navigate("/hospitaldashboard")
                     : navigate("/hospitallogin")
                 }
+                style={{
+                  display: "flex",
+                  fontWeight: "700",
+                  alignItems: "center",
+                }}
               >
-                <b>
-                  <ArrowRightOnRectangleIcon
-                    style={{
-                      height: "22px",
-                      width: "22px",
-                      marginRight: "5px",
-                      marginTop: "-5px",
-                    }}
-                  />
-                  Proceed
-                </b>
+                <ArrowRightOnRectangleIcon
+                  style={{
+                    height: "22px",
+                    width: "22px",
+                    marginRight: "5px",
+                    marginTop: "-5px",
+                  }}
+                />
+                Proceed
               </Button>
 
               {/* <Copyright sx={{ mt: 5 }} /> */}
@@ -279,18 +284,21 @@ function Login() {
                     ? navigate("/admindashboard")
                     : navigate("/adminlogin")
                 }
+                style={{
+                  display: "flex",
+                  fontWeight: "700",
+                  alignItems: "center",
+                }}
               >
-                <b>
-                  <ArrowRightOnRectangleIcon
-                    style={{
-                      height: "22px",
-                      width: "22px",
-                      marginRight: "5px",
-                      marginTop: "-5px",
-                    }}
-                  />
-                  Proceed
-                </b>
+                <ArrowRightOnRectangleIcon
+                  style={{
+                    height: "22px",
+                    width: "22px",
+                    marginRight: "5px",
+                    marginTop: "-5px",
+                  }}
+                />
+                Proceed
               </Button>
 
               {/* <Copyright sx={{ mt: 5 }} /> */}

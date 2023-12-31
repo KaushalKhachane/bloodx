@@ -1,14 +1,18 @@
-import React ,{useEffect, useState} from 'react';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import { NavDropdown } from 'react-bootstrap';
-import iconSvg from './iconSvg.png';
-import './Header.css'
-import Button from 'react-bootstrap/Button';
-import AdminDashboard from './AdminDashboard';
+import React, { useEffect, useState } from "react";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import { NavDropdown } from "react-bootstrap";
+import iconSvg from "./iconSvg.png";
+import "./Header.css";
+import Button from "react-bootstrap/Button";
+import AdminDashboard from "./AdminDashboard";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon, HomeIcon,   } from "@heroicons/react/24/solid";
+import {
+  ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
+  HomeIcon,
+} from "@heroicons/react/24/solid";
 import {
   InformationCircleIcon,
   UserCircleIcon,
@@ -22,48 +26,48 @@ export const Header = (props) => {
 
   const location = useLocation();
   const navigate = useNavigate("");
-  let Headerstyle={
-    paddingRight:"50px",
-    color:"white",
+  let Headerstyle = {
+    paddingRight: "50px",
+    color: "white",
     font: "16px Montserrat, sans-serif",
     margin: "auto",
-    
-  }
-  let Headerhead={
-    color:"white",
+    display: "flex",
+    alignItems: "center",
+  };
+  let Headerhead = {
+    color: "white",
     font: "30px Poppins",
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  };
   let HeaderButton = {
     color: "white",
     font: "16px Montserrat, sans-serif",
     backgroundColor: "transparent",
-    boxShadow:"0px 0px 0px 0px white",
-    borderColor:"white",
+    boxShadow: "0px 0px 0px 0px white",
+    borderColor: "white",
+    display: "flex",
+    alignItems: "center",
   };
 
+  const handleProfileDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
-  const handleProfileDropdown = () => { 
-      setIsDropdownOpen(!isDropdownOpen);
-  }
-
-  const handleLogout = () => { 
-    localStorage.removeItem("token")
-    localStorage.removeItem("user_type")
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_type");
     localStorage.removeItem("user_name");
-    
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       navigate("/");
-    },1000)
-  }
+    }, 1000);
+  };
 
   return (
     <html>
-      <head>
-        {/* <link rel="stylesheet" href="./styles.css"></link> */}
-      </head>
+      <head>{/* <link rel="stylesheet" href="./styles.css"></link> */}</head>
       <body>
         {loading && <div id="loader" className="lds-dual-ring overlay" />}
         <Navbar
@@ -76,7 +80,7 @@ export const Header = (props) => {
             position: "fixed",
             width: "100%",
             marginBottom: "20px",
-            height: "80px",
+            height: "auto",
             background:
               "linear-gradient(to bottom right,rgba(100,0,0,1), rgba(255,0,0,1) ,rgba(100,0,0,1))",
           }}
@@ -93,20 +97,22 @@ export const Header = (props) => {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto" style={{ marginLeft: "520px" }}></Nav>
+              <Nav className="me-auto"></Nav>
               <Nav style={{ width: "max-content" }}>
                 <Nav.Link
-                  className={`navbar-link ${
-                    location.pathname === "/" ? "active-link" : ""
-                  }`}
+                  className={`navbar-link`}
                   style={Headerstyle}
-                  onClick={() => navigate("/")}
+                  onClick={() =>
+                    localStorage.getItem("user_type") === "donor"
+                      ? navigate("/userdashboard")
+                      : localStorage.getItem("user_type") === "hospital"
+                      ? navigate("/hospitaldashboard")
+                      : navigate("/")}
                 >
                   <HomeIcon
                     style={{
                       height: "20px",
                       width: "20px",
-                      marginTop: "-5px",
                       marginRight: "10px",
                     }}
                   />
@@ -125,7 +131,7 @@ export const Header = (props) => {
                     style={{
                       height: "20px",
                       width: "20px",
-                      marginTop: "-5px",
+
                       marginRight: "10px",
                     }}
                   />
@@ -142,7 +148,7 @@ export const Header = (props) => {
                     style={{
                       height: "20px",
                       width: "20px",
-                      marginTop: "-5px",
+
                       marginRight: "10px",
                     }}
                   />
@@ -160,7 +166,7 @@ export const Header = (props) => {
                     style={{
                       height: "20px",
                       width: "20px",
-                      marginTop: "-5px",
+                      
                       marginRight: "10px",
                     }}
                   />
@@ -177,6 +183,8 @@ export const Header = (props) => {
                           border: "none",
                           textOverflow: "hidden",
                           marginTop: "20px",
+                          display: "flex",
+                          alignItems: "center",
                         }}
                       >
                         <p
@@ -184,6 +192,8 @@ export const Header = (props) => {
                             maxHeight: "25px",
                             maxWidth: "180px",
                             overflow: "hidden",
+                            display: 'flex',
+                            alignItems:"center"
                           }}
                         >
                           <UserCircleIcon
@@ -194,7 +204,7 @@ export const Header = (props) => {
                               marginRight: "10px",
                               marginLeft: "10px",
                             }}
-                          /> 
+                          />
                           Hi, {localStorage.getItem("user_name")}
                         </p>
                       </Nav.Link>
@@ -218,7 +228,10 @@ export const Header = (props) => {
                             style={{
                               background: "transparent",
                               border: "none",
+                              display: "flex",
+                              alignItems: "center",
                             }}
+                            className="ml-auto mr-auto"
                           >
                             <UserIcon
                               style={{
@@ -235,7 +248,10 @@ export const Header = (props) => {
                             style={{
                               background: "transparent",
                               border: "none",
+                              display: "flex",
+                              alignItems: "center",
                             }}
+                            className="ml-auto mr-auto"
                           >
                             <ArrowLeftOnRectangleIcon
                               style={{
@@ -261,7 +277,7 @@ export const Header = (props) => {
                       style={{
                         height: "20px",
                         width: "20px",
-                        marginTop: "-5px",
+
                         marginRight: "10px",
                       }}
                     />
@@ -291,10 +307,6 @@ export const Header = (props) => {
       </body>
     </html>
   );
-}
+};
 
 export default Header;
-
-
-
-

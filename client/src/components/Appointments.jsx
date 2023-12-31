@@ -107,7 +107,7 @@ const Appointments = ()=>{
           ))}
         </TableBody>
       </Table>
-      <Link color="primary" href="/appntlist" onClick={preventDefault} sx={{ mt: 3 }}>
+      <Link color="primary" to="/appntlist" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
       </Link>
     </React.Fragment>

@@ -7,7 +7,13 @@ const userSchema = new mongoose.Schema({
   user_gender: String,
   user_address: String,
   user_password: String,
-  user_photo : String
+  user_photo: String,
+  appointments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment",
+    },
+  ],
 });
 
 const adminSchema = new mongoose.Schema({
@@ -28,6 +34,11 @@ const appointmentSchema = new mongoose.Schema({
   app_date: Date,
   app_time: String,
   app_donated: String,
+  stage: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const hospitalSchema = new mongoose.Schema({
@@ -64,6 +75,10 @@ const bloodRequestSchema = new mongoose.Schema({
   },
   request_delivered: {
     type: String,
+  },
+  hospital: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Hospitals",
   },
 });
 

@@ -1,24 +1,28 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
 
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { useSelector, useDispatch } from "react-redux";
 
-import Footer from './Footer';
-import Header from './Header';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import "../App.css"
-
+import Footer from "./Footer";
+import Header from "./Header";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../App.css";
+import { Collapse } from "react-bootstrap";
+import { hideAlert, showAlert } from "../Redux/alertSlice";
+import AlertComponent from "../ReusableComponents/AlertComponent";
+import Loader from "../ReusableComponents/Loader";
 
 // function Copyright(props) {
 //   return (
@@ -44,6 +48,8 @@ function UserLogin() {
   //     console.log(response);
   //   });
   // };
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(false);
   const [warningText, setWarningText] = useState("");
   const [successText, setSuccessText] = useState("");
@@ -51,27 +57,34 @@ function UserLogin() {
   const [otp, setOtp] = useState("");
   const [user_email, setUserEmail] = useState("");
   const [user_password, setUserPassword] = useState("");
-  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
+  const [authenticated, setauthenticated] = useState(
+    localStorage.getItem(localStorage.getItem("authenticated") || false)
+  );
   const [loginStatus, setLoginStatus] = useState("");
 
   const navigate = useNavigate();
-
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
     const regexExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!user_email) {
-      setWarningText("Please enter email address !!");
+      dispatch(
+        showAlert({ text: "Please enter email address !!", type: "warning" })
+      );
       setTimeout(() => {
-        setWarningText("");
-      }, 2000);
+        dispatch(hideAlert());
+      }, 4000);
       return;
-    }
-    else if (!regexExp.test(user_email)) { 
-      setWarningText("Please enter valid email address !!");
+    } else if (!regexExp.test(user_email)) {
+      dispatch(
+        showAlert({
+          text: "Please enter valid email address !!",
+          type: "warning",
+        })
+      );
       setTimeout(() => {
-        setWarningText("");
-      }, 2000);
+        dispatch(hideAlert());
+      }, 4000);
       return;
     }
     setLoading(true);
@@ -79,40 +92,40 @@ function UserLogin() {
       method: "POST",
       headers: {
         // "X-CSRFToken": getCookie("csrftoken"),
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
         // Authorization: `${token}`,
       },
       // credentials: "include",
-      body: JSON.stringify({user_email: user_email}),
+      body: JSON.stringify({ user_email: user_email }),
     });
     let data = await res.json();
     console.log(data);
 
     if (data.status === "success") {
       setLoading(false);
-      setSuccessText(data.message);
+      dispatch(showAlert({ text: data.message, type: "success" }));
+      setIsOtpSent(true);
       setTimeout(() => {
-        setSuccessText("");
-        setIsOtpSent(true);
-      }, 2000);
-    }
-    else {
+        dispatch(hideAlert());
+      }, 4000);
+    } else {
       setLoading(false);
-      setWarningText(data.message);
+      dispatch(showAlert({ text: data.message, type: "warning" }));
       setTimeout(() => {
-        setWarningText("");
-      }, 2000);
+        dispatch(hideAlert());
+      }, 4000);
     }
-
   };
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
-    if (!otp || otp.length!=6) {
-      setWarningText("Please enter valid 6-digit OTP");
+    if (!otp || otp.length != 6) {
+      dispatch(
+        showAlert({ text: "Please enter valid 6-digit OTP", type: "warning" })
+      );
       setTimeout(() => {
-        setWarningText("");
-      }, 1500);
+        dispatch(hideAlert());
+      }, 4000);
       return;
     }
     setLoading(true);
@@ -124,56 +137,59 @@ function UserLogin() {
         // Authorization: `${token}`,
       },
       // credentials: "include",
-      body: JSON.stringify({ user_email: user_email , user_otp: otp}),
+      body: JSON.stringify({ user_email: user_email, user_otp: otp }),
     });
     let data = await res.json();
     console.log(data);
 
     if (data.status === "success") {
       setLoading(false);
-      setSuccessText(data.message);
+      dispatch(showAlert({ text: data.message, type: "success" }));
       setTimeout(() => {
-        setSuccessText("");
+        dispatch(hideAlert());
         localStorage.setItem("token", data.token);
         localStorage.setItem("user_type", data.user_type);
         localStorage.setItem("user_name", data.user_name);
+        localStorage.setItem("authenticated", true);
         navigate("/userdashboard");
       }, 2000);
     } else {
       setLoading(false);
-      setWarningText(data.message);
+      dispatch(showAlert({ text: data.message, type: "warning" }));
       setTimeout(() => {
-        setWarningText("");
-      }, 2000);
+        dispatch(hideAlert());
+      }, 4000);
     }
-  }
+  };
 
-    // const handleClick = async e =>{
-    //   e.preventDefault()
-    //     await axios.post("http://localhost:8801/api/users/login",{
-    //       user_email:user_email,
-    //       user_password:user_password,
-    //     })
-    //     .then((response)=>{
-    //       if(response.data.message){
-    //         setLoginStatus(response.data.message);
-    //       }else{
-    //         setLoginStatus(response.data[0].user_email);
-    //         setauthenticated(true)
-    //         localStorage.setItem("authenticated", true);
-    //         navigate("/userdashboard")
-    //       }
-    //     })
-    //     .catch(err=>{
-    //       console.log(err);
-    //     })
-    //       // navigate("/userdashboard")   
-    // };
-  
+  // const handleClick = async e =>{
+  //   e.preventDefault()
+  //     await axios.post("http://localhost:8801/api/users/login",{
+  //       user_email:user_email,
+  //       user_password:user_password,
+  //     })
+  //     .then((response)=>{
+  //       if(response.data.message){
+  //         setLoginStatus(response.data.message);
+  //       }else{
+  //         setLoginStatus(response.data[0].user_email);
+  //         setauthenticated(true)
+  //         localStorage.setItem("authenticated", true);
+  //         navigate("/userdashboard")
+  //       }
+  //     })
+  //     .catch(err=>{
+  //       console.log(err);
+  //     })
+  //       // navigate("/userdashboard")
+  // };
+
+
   return (
     <>
-      <Header/>
-      {loading ? <div id="loader" className="lds-dual-ring overlay" /> : null}
+      <Header />
+      <AlertComponent />
+      {loading && <Loader/>}
       {/* <ThemeProvider theme={theme}> */}
       <Grid container component="main" sx={{ marginTop: "80px" }}>
         {/* <Grid
@@ -202,7 +218,7 @@ function UserLogin() {
           style={{
             marginTop: "35px",
             borderRadius: "10px",
-            height: "550px",
+            height: "max-content",
             color: "red",
             marginBottom: "0px",
           }}
@@ -294,46 +310,48 @@ function UserLogin() {
               </div>
 
               {isOtpSent ? (
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  onClick={handleVerifyOtp}
-                  style={{
-                    marginLeft: "140px",
-                    width: "150px",
-                    borderRadius: "15px",
-                  }}
-                  sx={{
-                    mt: 3,
-                    mb: 3,
-                    p: 1,
-                    bgcolor: "red",
-                    font: "18px Montserrat, sans-serif",
-                  }}
-                >
-                  <b>Verify OTP</b>
-                </Button>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    onClick={handleVerifyOtp}
+                    style={{
+                      width: "150px",
+                      borderRadius: "15px",
+                    }}
+                    sx={{
+                      mt: 3,
+                      mb: 3,
+                      p: 1,
+                      bgcolor: "red",
+                      font: "18px Montserrat, sans-serif",
+                    }}
+                  >
+                    <b>Verify OTP</b>
+                  </Button>
+                </div>
               ) : (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={handleSendOtp}
-                  style={{
-                    marginLeft: "140px",
-                    width: "150px",
-                    borderRadius: "15px",
-                  }}
-                  sx={{
-                    mt: 3,
-                    mb: 3,
-                    p: 1,
-                    bgcolor: "red",
-                    font: "18px Montserrat, sans-serif",
-                  }}
-                >
-                  <b>Get OTP</b>
-                </Button>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    onClick={handleSendOtp}
+                    style={{
+                      width: "150px",
+                      borderRadius: "15px",
+                    }}
+                    sx={{
+                      mt: 3,
+                      mb: 3,
+                      p: 1,
+                      bgcolor: "red",
+                      font: "18px Montserrat, sans-serif",
+                    }}
+                  >
+                    <b>Get OTP</b>
+                  </Button>
+                </div>
               )}
 
               <Grid container style={{ textAlign: "center" }}>

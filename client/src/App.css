@@ -85,14 +85,17 @@
   transition: all 0.5s;
 }
 
-.fa{
-    color:red;
+.fa {
+  color: red;
 }
 
-.footerlink{
-    text-align: left;
+.footerlink {
+  text-align: left;
 }
 
-
-
-
+.alert {
+  position: absolute !important;
+  margin-top: 10px;
+  width:max-content;
+  right:10px;
+}
