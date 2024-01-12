@@ -8,16 +8,22 @@ import bloodRequestRouter from "./routes/BloodRequests.js";
 import bloodStockRouter from "./routes/BloodStock.js";
 import adminRouter from "./routes/Admin.js";
 import { User } from "../backend/models.js";
+import { upload } from "./middlewares/multer.middleware.js"
 
 import nodemailer from "nodemailer";
 import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv"
+dotenv.config({
+  path: './.env'
+})
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
+// console.log("port: "+process.env.PORT);s
 
 // import admin from "firebase-admin";
 // const serviceAccount = {
@@ -42,7 +48,13 @@ app.use(cors());
 // });
 
 
-app.use("/api/users", usersRouter);
+app.use("/api/users", upload.fields([
+  {
+    name: "user_photo",
+    maxCount: 1
+  },
+
+]),usersRouter);
 app.use("/api/appointments", appointmentsRouter);
 app.use("/api/hospitals", hospitalsRouter);
 app.use("/api/bloodrequests", bloodRequestRouter);
