@@ -33,7 +33,10 @@ const appointmentSchema = new mongoose.Schema({
   app_diabetic: String,
   app_date: Date,
   app_time: String,
-  app_donated: String,
+  app_donated: {
+    type: Boolean,
+    default: false
+  },
   stage: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,

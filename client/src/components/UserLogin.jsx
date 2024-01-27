@@ -24,30 +24,8 @@ import { hideAlert, showAlert } from "../Redux/alertSlice";
 import AlertComponent from "../ReusableComponents/AlertComponent";
 import Loader from "../ReusableComponents/Loader";
 
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         BloodX
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// const theme = createTheme();
-
 function UserLogin() {
-  // const login1 = () =>{
-  //   Axios.post("https://localhost:8081/userlogin",{
-  //     user_email: user_email,
-  //     user_password: user_password,
-  //   }).then((response) => {
-  //     console.log(response);
-  //   });
-  // };
+  
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -163,29 +141,6 @@ function UserLogin() {
     }
   };
 
-  // const handleClick = async e =>{
-  //   e.preventDefault()
-  //     await axios.post("http://localhost:8081/api/users/login",{
-  //       user_email:user_email,
-  //       user_password:user_password,
-  //     })
-  //     .then((response)=>{
-  //       if(response.data.message){
-  //         setLoginStatus(response.data.message);
-  //       }else{
-  //         setLoginStatus(response.data[0].user_email);
-  //         setauthenticated(true)
-  //         localStorage.setItem("authenticated", true);
-  //         navigate("/userdashboard")
-  //       }
-  //     })
-  //     .catch(err=>{
-  //       console.log(err);
-  //     })
-  //       // navigate("/userdashboard")
-  // };
-
-
   return (
     <>
       <Header />
@@ -193,20 +148,7 @@ function UserLogin() {
       {loading && <Loader/>}
       {/* <ThemeProvider theme={theme}> */}
       <Grid container component="main" sx={{ marginTop: "80px" }}>
-        {/* <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        /> */}
+   
         <Grid item xs={3.6}></Grid>
         <Grid
           item

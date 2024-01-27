@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/all", async (req, res) => {
   try {
     const appointments = await Appointment.find();
+    // console.log(appointments)
     res.json(appointments);
   } catch (err) {
     console.error(err);
@@ -53,7 +54,6 @@ router.post("/create", authenticateToken, async (req, res) => {
       app_diabetic: req.body.app_diabetic,
       app_date: req.body.app_date,
       app_time: req.body.app_time,
-      app_donated: req.body.app_donated,
       user: userId,
     });
 
@@ -74,7 +74,7 @@ router.delete("/delete/:app_email", async (req, res) => {
     });
 
     if (deletedAppointment) {
-      res.json("Appointment has been deleted successfully!!");
+      res.status(200).json("Appointment has been deleted successfully!!");
     } else {
       res.status(404).json({ message: "Appointment not found" });
     }
@@ -90,7 +90,7 @@ router.put("/update/:app_email", async (req, res) => {
   try {
     const updatedAppointment = await Appointment.findOneAndUpdate(
       { app_email },
-      { app_donated: "Y" },
+      { app_donated: true },
       { new: true }
     );
 
@@ -107,7 +107,7 @@ router.put("/update/:app_email", async (req, res) => {
 
 router.get("/donated", async (req, res) => {
   try {
-    const appointments = await Appointment.find({ app_donated: "Y" });
+    const appointments = await Appointment.find({ app_donated: true });
 
     res.json(appointments);
   } catch (err) {
@@ -121,7 +121,7 @@ router.get("/donorCount", async (req, res) => {
   try {
     const donorCounts = await Appointment.aggregate([
       {
-            $match: { app_donated: "Y" },
+            $match: { app_donated: true},
       },
       {
         $group: {

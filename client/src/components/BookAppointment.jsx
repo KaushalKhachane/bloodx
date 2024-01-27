@@ -99,6 +99,7 @@ const BookAppointment = () => {
     });
 
     try {
+      console.log(appointment)
       const response = await fetch(
         "http://localhost:8081/api/appointments/create",
         {

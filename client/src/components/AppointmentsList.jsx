@@ -103,8 +103,10 @@ function DashboardContent() {
 
   const handleDelete = async(app_email)=>{
     try{
-      await axios.delete("http://localhost:8081/appointments/"+app_email );
-      window.location.reload()
+      const res =  axios.delete("http://localhost:8081/api/appointments/delete/"+app_email );
+      if(res != null){
+        alert("Deleted")
+      }
     }catch(err){
       console.log(err);
     }
@@ -112,7 +114,7 @@ function DashboardContent() {
 
   const handleUpdate = async(app_email)=>{
     try{
-      await axios.put("http://localhost:8081/appointments/"+app_email );
+      await axios.put("http://localhost:8081/api/appointments/update/"+app_email );
       window.location.reload()
     }catch(err){
       console.log(err);
