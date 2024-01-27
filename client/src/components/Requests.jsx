@@ -22,7 +22,7 @@ const Requests = ()=>{
 
   const handleDelete = async(reg_no)=>{
     try{
-      await axios.delete("http://localhost:8801/requests/"+reg_no );
+      await axios.delete("http://localhost:8081/requests/"+reg_no );
       window.location.reload()
     }catch(err){
       console.log(err);
@@ -31,7 +31,7 @@ const Requests = ()=>{
 
   const handleUpdate = async(reg_no)=>{
     try{
-      await axios.put("http://localhost:8801/requests/"+reg_no );
+      await axios.put("http://localhost:8081/requests/"+reg_no );
       window.location.reload()
     }catch(err){
       console.log(err);
@@ -41,7 +41,7 @@ const Requests = ()=>{
   React.useEffect(()=>{
     const fetchrequests = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/requests")
+      const res = await axios.get("http://localhost:8081/requests")
       setrequest(res.data);
       console.log(res)
     }

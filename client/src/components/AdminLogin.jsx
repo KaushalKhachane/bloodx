@@ -36,7 +36,7 @@ import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
   // const login1 = () =>{
-  //   Axios.post("https://localhost:8801/userlogin",{
+  //   Axios.post("https://localhost:8081/userlogin",{
   //     user_email: user_email,
   //     user_password: user_password,
   //   }).then((response) => {
@@ -66,7 +66,7 @@ const navigate = useNavigate()
       }
 
       try {
-        const response = await fetch("http://localhost:8801/api/admin/login", {
+        const response = await fetch("http://localhost:8081/api/admin/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

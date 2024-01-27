@@ -75,7 +75,7 @@ const UserDashboard = () => {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:8801/api/appointments/fetch_user_appointments/`,
+        `http://localhost:8081/api/appointments/fetch_user_appointments/`,
         {
           method: "GET",
           headers: {

@@ -22,7 +22,7 @@ const Appointments = ()=>{
 
   const handleDelete = async(app_email)=>{
     try{
-      await axios.delete("http://localhost:8801/appointments/"+app_email );
+      await axios.delete("http://localhost:8081/appointments/"+app_email );
       window.location.reload()
     }catch(err){
       console.log(err);
@@ -32,7 +32,7 @@ const Appointments = ()=>{
   const handleUpdate = async(app_email)=>{
     try {
       const response = await fetch(
-        `http://localhost:8801/api/appointments/update/${app_email}`,
+        `http://localhost:8081/api/appointments/update/${app_email}`,
         {
           method: "PUT",
           headers: {
@@ -54,7 +54,7 @@ const Appointments = ()=>{
     const fetchappnt = async()=>{
     try {
       const response = await fetch(
-        "http://localhost:8801/api/appointments/all",
+        "http://localhost:8081/api/appointments/all",
         {
           method: "GET",
           headers: {

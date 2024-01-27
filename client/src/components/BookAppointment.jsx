@@ -100,7 +100,7 @@ const BookAppointment = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8801/api/appointments/create",
+        "http://localhost:8081/api/appointments/create",
         {
           method: "POST",
           headers: {

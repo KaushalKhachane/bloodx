@@ -107,7 +107,8 @@ export const Header = (props) => {
                       ? navigate("/userdashboard")
                       : localStorage.getItem("user_type") === "hospital"
                       ? navigate("/hospitaldashboard")
-                      : navigate("/")}
+                      : navigate("/")
+                  }
                 >
                   <HomeIcon
                     style={{
@@ -191,12 +192,12 @@ export const Header = (props) => {
                           style={{
                             maxHeight: "25px",
                             maxWidth: "180px",
-                            overflow: "hidden",
-                            display: 'flex',
-                            alignItems:"center"
+                            // overflow: "hidden",
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
-                          <UserCircleIcon
+                          {/* <UserCircleIcon
                             style={{
                               height: "24px",
                               width: "24px",
@@ -204,7 +205,8 @@ export const Header = (props) => {
                               marginRight: "10px",
                               marginLeft: "10px",
                             }}
-                          />
+                          /> */}
+                          <img style={{height:"40px", width:"40px", borderRadius:"50%", border:"2px solid white", marginRight:"10px", boxShadow:"0px 4px 4px 0px rgba(0,0,0,0.25)"}} src={localStorage.getItem("user_photo")} />
                           Hi, {localStorage.getItem("user_name")}
                         </p>
                       </Nav.Link>

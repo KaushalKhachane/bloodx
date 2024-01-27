@@ -10,13 +10,13 @@ function UserProfile() {
       return;
     }
 
-    console.log(imageUpload)
+    console.log(imageUpload);
 
     const formData = new FormData();
     formData.append("file", imageUpload);
 
     try {
-      const response = await fetch("http://localhost:8801/api/users/userProfile", {
+      const response = await fetch("http://localhost:8081/api/users/signup", {
         method: "POST",
         // headers: {
         //     "Content-Type": "application/json"

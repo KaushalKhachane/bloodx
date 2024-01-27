@@ -103,7 +103,7 @@ function DashboardContent() {
   React.useEffect(()=>{
     const fetchstock = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/stock")
+      const res = await axios.get("http://localhost:8081/stock")
       setstocks(res.data);
       console.log(res)
     }

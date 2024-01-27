@@ -48,7 +48,7 @@ app.use(cors());
 // });
 
 
-app.use("/api/users", upload.fields([
+app.use("/api/users/", upload.fields([
   {
     name: "user_photo",
     maxCount: 1
@@ -121,10 +121,10 @@ app.post("/verify-otp", async (req, res) => {
   }
 
   const token = jwt.sign({ userId: user._id }, "my-secret-key", {});
-  res.status(200).json({ status:"success", message:"OTP Verified Successfully !!", token: token, user_type: "donor", user_name: user.user_name, });
+  res.status(200).json({ status:"success", message:"OTP Verified Successfully !!", token: token, user_type: "donor", user_name: user.user_name, user_photo: user.user_photo });
 });
 
-const PORT = process.env.PORT || 8801;
+const PORT = process.env.PORT || 8081;
 
 mongoose.connect(
   "mongodb+srv://knk29:khachane29@atlascluster.wtf8ey2.mongodb.net/blood_bank?retryWrites=true&w=majority",

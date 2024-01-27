@@ -103,7 +103,7 @@ function DashboardContent() {
   React.useEffect(()=>{
     const fetchhospitals = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/hospitals")
+      const res = await axios.get("http://localhost:8081/hospitals")
       sethospital(res.data);
       console.log(res)
     }

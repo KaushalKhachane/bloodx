@@ -41,7 +41,7 @@ import Loader from "../ReusableComponents/Loader";
 
 function UserLogin() {
   // const login1 = () =>{
-  //   Axios.post("https://localhost:8801/userlogin",{
+  //   Axios.post("https://localhost:8081/userlogin",{
   //     user_email: user_email,
   //     user_password: user_password,
   //   }).then((response) => {
@@ -88,7 +88,7 @@ function UserLogin() {
       return;
     }
     setLoading(true);
-    let res = await fetch("http://localhost:8801/send-otp", {
+    let res = await fetch("http://localhost:8081/send-otp", {
       method: "POST",
       headers: {
         // "X-CSRFToken": getCookie("csrftoken"),
@@ -129,7 +129,7 @@ function UserLogin() {
       return;
     }
     setLoading(true);
-    let res = await fetch("http://localhost:8801/verify-otp", {
+    let res = await fetch("http://localhost:8081/verify-otp", {
       method: "POST",
       headers: {
         // "X-CSRFToken": getCookie("csrftoken"),
@@ -150,6 +150,7 @@ function UserLogin() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user_type", data.user_type);
         localStorage.setItem("user_name", data.user_name);
+        localStorage.setItem("user_photo", data.user_photo);
         localStorage.setItem("authenticated", true);
         navigate("/userdashboard");
       }, 2000);
@@ -164,7 +165,7 @@ function UserLogin() {
 
   // const handleClick = async e =>{
   //   e.preventDefault()
-  //     await axios.post("http://localhost:8801/api/users/login",{
+  //     await axios.post("http://localhost:8081/api/users/login",{
   //       user_email:user_email,
   //       user_password:user_password,
   //     })

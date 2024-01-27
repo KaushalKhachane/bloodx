@@ -103,7 +103,7 @@ function DashboardContent() {
 
   const handleDelete = async(app_email)=>{
     try{
-      await axios.delete("http://localhost:8801/appointments/"+app_email );
+      await axios.delete("http://localhost:8081/appointments/"+app_email );
       window.location.reload()
     }catch(err){
       console.log(err);
@@ -112,7 +112,7 @@ function DashboardContent() {
 
   const handleUpdate = async(app_email)=>{
     try{
-      await axios.put("http://localhost:8801/appointments/"+app_email );
+      await axios.put("http://localhost:8081/appointments/"+app_email );
       window.location.reload()
     }catch(err){
       console.log(err);
@@ -121,7 +121,7 @@ function DashboardContent() {
   React.useEffect(()=>{
     const fetchappnt = async()=>{
       try {
-        const response = await fetch("http://localhost:8801/api/appointments/all", {
+        const response = await fetch("http://localhost:8081/api/appointments/all", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

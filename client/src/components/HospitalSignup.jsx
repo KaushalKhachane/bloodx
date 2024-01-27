@@ -50,7 +50,7 @@ const HospitalSignup=()=> {
     const handleClick = async e =>{
         e.preventDefault()
         try{
-            await axios.post("http://localhost:8801/hospitals",hospital) 
+            await axios.post("http://localhost:8081/hospitals",hospital) 
             // navigate("/hospitallogin")
         }catch(err){
             console.log(err)

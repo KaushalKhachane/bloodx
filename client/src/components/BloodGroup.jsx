@@ -104,7 +104,7 @@ function DashboardContent() {
   React.useEffect(()=>{
     const fetchrequests = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/bgrequests")
+      const res = await axios.get("http://localhost:8081/bgrequests")
       setbgrequest(res.data);
       console.log(res)
     }
@@ -115,7 +115,7 @@ function DashboardContent() {
     }
     const fetchdonors = async()=>{
         try{
-          const res = await axios.get("http://localhost:8801/bgdonor")
+          const res = await axios.get("http://localhost:8081/bgdonor")
           setbgdonor(res.data);
           console.log(res)
         }

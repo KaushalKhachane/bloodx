@@ -55,7 +55,7 @@ const HospitalDashboard=()=> {
     const handleClick = async (e) => {
       e.preventDefault();
       try {
-        await axios.post("http://localhost:8801/requests", requests);
+        await axios.post("http://localhost:8081/requests", requests);
         navigate("/")
       } catch (err) {
         console.log(err);

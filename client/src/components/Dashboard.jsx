@@ -33,7 +33,7 @@ const Dashboard = () => {
     })
     const fetchappnts = async()=>{
     try{
-      const res = await axios.get("http://localhost:8801/api/appointments/donated")
+      const res = await axios.get("http://localhost:8081/api/appointments/donated")
       setappnt(res.data);
       console.log(res)
     }
