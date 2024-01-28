@@ -99,100 +99,66 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const[appnts,setappnt] = useState([])
+  const [appnts, setappnt] = useState([])
 
-  const handleDelete = async(app_email)=>{
-    try{
-      const res =  axios.delete("http://localhost:8081/api/appointments/delete/"+app_email );
-      if(res != null){
+  const handleDelete = async (app_email) => {
+    try {
+      const res = axios.delete("http://localhost:8081/api/appointments/delete/" + app_email);
+      if (res != null) {
         alert("Deleted")
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
 
-  const handleUpdate = async(app_email)=>{
-    try{
-      await axios.put("http://localhost:8081/api/appointments/update/"+app_email );
+  const handleUpdate = async (app_email) => {
+    try {
+      await axios.put("http://localhost:8081/api/appointments/update/" + app_email);
       window.location.reload()
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
-  React.useEffect(()=>{
-    const fetchappnt = async()=>{
+  React.useEffect(() => {
+    const fetchappnt = async () => {
       try {
         const response = await fetch("http://localhost:8081/api/appointments/all", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-        
+
         });
 
         const data = await response.json();
         setappnt(data);
         console.log(data);
-        
+
       } catch (err) {
         console.error(err);
       }
-      
+
     }
     fetchappnt();
-  },[])
+  }, [])
 
   return (
-    
+
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex', color:"red"}}>
+      <Box sx={{ display: 'flex', color: "red" }}>
         <CssBaseline />
-        {/* <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="white"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Dashboard
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar> */}
         <AppBar>
-        <Header/>
+          <Header />
         </AppBar>
-        
+
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
-              marginTop : '75px',
+              marginTop: '75px',
               px: [1],
             }}
           >
@@ -204,57 +170,57 @@ function DashboardContent() {
           <List component="nav">
             {/* {mainListItems} */}
             <React.Fragment>
-                <ListItemButton href="/admindashboard">
+              <ListItemButton href="/admindashboard">
                 <ListItemIcon>
-                    <DashboardIcon />
+                  <DashboardIcon />
                 </ListItemIcon>
                 <ListItemText primary="Dashboard" />
-                </ListItemButton>
-                <ListItemButton href="/donorlist">
+              </ListItemButton>
+              <ListItemButton href="/donorlist">
                 <ListItemIcon>
-                <PeopleIcon />
+                  <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Donor List" />
-                </ListItemButton>
-                
-                <ListItemButton href="/hospitallist">
+              </ListItemButton>
+
+              <ListItemButton href="/hospitallist">
                 <ListItemIcon>
-                    <BarChartIcon />
+                  <BarChartIcon />
                 </ListItemIcon>
                 <ListItemText primary="Hospital List" />
-                </ListItemButton>
-          
+              </ListItemButton>
+
             </React.Fragment>
             <Divider sx={{ my: 1 }} />
             {/* {secondaryListItems} */}
             <React.Fragment>
-                <ListSubheader component="div" inset>
+              <ListSubheader component="div" inset>
                 Dashboard Items
-                </ListSubheader>
-                <ListItemButton href="/bg">
+              </ListSubheader>
+              <ListItemButton href="/bg">
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Blood Groups" />
-                </ListItemButton>
-                <ListItemButton href="appntlist">
+              </ListItemButton>
+              <ListItemButton href="appntlist">
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Appointments" />
-                </ListItemButton>
-                <ListItemButton href="/bloodrequests">
+              </ListItemButton>
+              <ListItemButton href="/bloodrequests">
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Blood Requests" />
-                </ListItemButton>
-                <ListItemButton href="/stock">
+              </ListItemButton>
+              <ListItemButton href="/stock">
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Blood Stock" />
-                </ListItemButton>
+              </ListItemButton>
             </React.Fragment>
           </List>
         </Drawer>
@@ -274,58 +240,58 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 6, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-             
+
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <React.Fragment>
-      <Typography component="h2" variant="h6" color="primary" align="left " gutterBottom>
-         <b>Appointments</b>
-    </Typography>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-          <TableCell><b>Date</b></TableCell>
-            <TableCell><b>Email</b></TableCell>
-            <TableCell><b>Name</b></TableCell>
-            <TableCell><b>Phone No</b></TableCell>
-            <TableCell><b>Blood Group</b></TableCell>
-            <TableCell><b>Donation Camp</b></TableCell>
-            <TableCell><b>Donated(Y/N)</b></TableCell>
-            <TableCell><b>Operations</b></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {appnts.map(appnt => (
-            <TableRow>
-              <TableCell>{appnt.app_date}</TableCell>
-              <TableCell>{appnt.app_email}</TableCell>
-              <TableCell>{appnt.app_name}</TableCell>
-              <TableCell>{appnt.app_phone_no}</TableCell>
-              <TableCell>{appnt.app_blood_type}</TableCell>
-              <TableCell>{appnt.app_camp_address}</TableCell>
-              <TableCell>{appnt.app_donated}</TableCell>
-              <TableCell><Button variant="success" className="approve" onClick={()=>handleUpdate(appnt.app_email)}>Approve</Button>{''} </TableCell>
-              <TableCell> <Button variant="danger" className="delete" onClick={()=>handleDelete(appnt.app_email)}>Delete</Button>{''}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+                  <React.Fragment>
+                    <Typography component="h2" variant="h6" color="primary" align="left " gutterBottom>
+                      <b>Appointments</b>
+                    </Typography>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell><b>Date</b></TableCell>
+                          <TableCell><b>Email</b></TableCell>
+                          <TableCell><b>Name</b></TableCell>
+                          <TableCell><b>Phone No</b></TableCell>
+                          <TableCell><b>Blood Group</b></TableCell>
+                          <TableCell><b>Donation Camp</b></TableCell>
+                          <TableCell><b>Donated(Y/N)</b></TableCell>
+                          <TableCell><b>Operations</b></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {appnts.map(appnt => (
+                          <TableRow>
+                            <TableCell>{appnt.app_date}</TableCell>
+                            <TableCell>{appnt.app_email}</TableCell>
+                            <TableCell>{appnt.app_name}</TableCell>
+                            <TableCell>{appnt.app_phone_no}</TableCell>
+                            <TableCell>{appnt.app_blood_type}</TableCell>
+                            <TableCell>{appnt.app_camp_address}</TableCell>
+                            <TableCell>{appnt.app_donated === true ? "Y" : "N"}</TableCell>
+                            <TableCell><Button variant="success" className="approve" onClick={() => handleUpdate(appnt.app_email)}>Approve</Button>{''} </TableCell>
+                            <TableCell> <Button variant="danger" className="delete" onClick={() => handleDelete(appnt.app_email)}>Delete</Button>{''}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
       </Link> */}
-    </React.Fragment>
+                  </React.Fragment>
                 </Paper>
               </Grid>
             </Grid>
-            
+
           </Container>
         </Box>
       </Box>
-      <Footer/>
-      <Outlet/>
+      <Footer />
+      <Outlet />
     </ThemeProvider>
-    
+
   );
 }
 

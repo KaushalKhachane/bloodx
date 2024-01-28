@@ -27,50 +27,50 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 
 
-const HospitalDashboard=()=> {
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-    //     console.log({
-    //         user_email: data.get('user_email'),
-    //         user_password: data.get('user_password'),
-    //     });
-    // };
-    const navigate = useNavigate()
-    
-  
-    const [requests, addRequest] = useState({
-      reg_no:null,
-      request_blood_type:"",
-      request_units:null,
-      urgent:"",
-      request_delivered:"N"
-    });
-  
-    const handleChange = (e) => {
-      addRequest((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    };
+const HospitalDashboard = () => {
+  // const handleSubmit = (event) => {
+  //     event.preventDefault();
+  //     const data = new FormData(event.currentTarget);
+  //     console.log({
+  //         user_email: data.get('user_email'),
+  //         user_password: data.get('user_password'),
+  //     });
+  // };
+  const navigate = useNavigate()
 
-  
-    const handleClick = async (e) => {
-      e.preventDefault();
-      try {
-        await axios.post("http://localhost:8081/requests", requests);
-        navigate("/")
-      } catch (err) {
-        console.log(err);
-      }
-    };
-  
-    console.log(requests);
 
-    return (
+  const [requests, addRequest] = useState({
+    reg_no: null,
+    request_blood_type: "",
+    request_units: null,
+    urgent: "",
+    request_delivered: "N"
+  });
 
-        
-        <>
-            <Header />
-            <Container component="main" maxWidth="sm" style={{marginBottom:"100px" }}>
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={10} square style={{marginTop:"10px", borderRadius:"10px", height:"500px",maxWidth:"600px", marginBottom:'0px'}}>
+  const handleChange = (e) => {
+    addRequest((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:8081/requests", requests);
+      navigate("/")
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(requests);
+
+  return (
+
+
+    <>
+      <Header />
+      <Container component="main" maxWidth="sm" style={{ marginBottom: "100px" }}>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={10} square style={{ marginTop: "10px", borderRadius: "10px", height: "500px", maxWidth: "600px", marginBottom: '0px' }}>
           <Box
             sx={{
               my: 4,
@@ -78,121 +78,100 @@ const HospitalDashboard=()=> {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              font:" 25px Montserrat, sans-serif"
+              font: " 25px Montserrat, sans-serif"
             }}
           >
-            
+
             <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
+              sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+
+              <Typography component="h1" variant="h5">
+                Request Blood
+              </Typography>
+              <Box component="form" noValidate sx={{ mt: 3 }}>
+                <Grid container spacing={2}>
+
+                  <Grid item xs={4}>
+
+                    <TextField
+                      required
+                      fullWidth
+                      id="regno"
+                      label="Blood Group"
+                      name="request_blood_type"
+                      autoComplete="regno"
+                      type="text"
+                      onChange={handleChange}
+                    />
+
+
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="regno"
+                      label="Quantity"
+                      name="request_units"
+                      autoComplete="regno"
+                      type="number"
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="regno"
+                      label="Registration No."
+                      name="reg_no"
+                      autoComplete="regno"
+                      type="number"
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl>
+                      <FormLabel id="demo-row-radio-buttons-group-label">Urgent</FormLabel>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                      >
+                        <FormControlLabel value="Y" name="urgent" onChange={handleChange} control={<Radio />} label="Yes" />
+                        <FormControlLabel value="N" name="urgent" onChange={handleChange} control={<Radio />} label="No" />
+
+
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={handleClick}
                 >
-                    
-                    <Typography component="h1" variant="h5">
-                        Request Blood
-                    </Typography>
-                    <Box component="form" noValidate  sx={{ mt: 3 }}>
-                      <Grid container spacing={2}>
-                        
-                        <Grid item xs={4}>
-                      {/* <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-autowidth-label">
-                          Blood Group
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-autowidth-select-label"
-                          id="demo-simple-select"
-                          value={age}
-                          label="Age"
-                          onChange={handleChange1}
-                        >
-                          <MenuItem value={"O+"}>O+ve</MenuItem>
-                          <MenuItem value={"O-"}>O-ve</MenuItem>
-                          <MenuItem value={"A+"}>A+ve</MenuItem>
-                          <MenuItem value={"A-"}>A-ve</MenuItem>
-                          <MenuItem value={"B+"}>B+ve</MenuItem>
-                          <MenuItem value={"B-"}>B-ve</MenuItem>
-                          <MenuItem value={"AB+"}>AB+ve</MenuItem>
-                          <MenuItem value={"AB-"}>AB-ve</MenuItem>
-                        </Select>
-                      </FormControl> */}
-                      
-                      <TextField
-                                    required
-                                    fullWidth
-                                    id="regno"
-                                    label="Blood Group"
-                                    name="request_blood_type"
-                                    autoComplete="regno"
-                                    type="text"
-                                    onChange={handleChange}
-                                />
+                  Request
+                </Button>
 
-                      
-                    </Grid>
-                
-                    <Grid item xs={4}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="regno"
-                                    label="Quantity"
-                                    name="request_units"
-                                    autoComplete="regno"
-                                    type="number"
-                                    onChange={handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={8}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="regno"
-                                    label="Registration No."
-                                    name="reg_no"
-                                    autoComplete="regno"
-                                    type="number"
-                                    onChange={handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                            <FormControl>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Urgent</FormLabel>
-                                    <RadioGroup
-                                        row
-                                        aria-labelledby="demo-row-radio-buttons-group-label"
-                                        name="row-radio-buttons-group"
-                                    >
-                                        <FormControlLabel value="Y" name="urgent" onChange={handleChange} control={<Radio />} label="Yes" />
-                                        <FormControlLabel value="N" name="urgent" onChange={handleChange} control={<Radio />} label="No" />
-                                       
-
-                                    </RadioGroup>
-                                </FormControl>
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={handleClick}
-                        >
-                            Request
-                        </Button>
-                       
-                    </Box>
-                </Box>
+              </Box>
+            </Box>
           </Box>
         </Grid>
 
-            </Container>
-           <Footer/>
-        </>
-       
-    );
+      </Container>
+      <Footer />
+    </>
+
+  );
 }
 export default HospitalDashboard;

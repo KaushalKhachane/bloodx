@@ -11,10 +11,6 @@ import Button from 'react-bootstrap/Button';
 
 import { Typography } from '@mui/material';
 
-// Generate Order Data
-// function createData(id, date, name, shipTo, paymentMethod, amount) {
-//   return { id, date, name, shipTo, paymentMethod, amount };
-// }
 
 const Requests = ()=>{
 

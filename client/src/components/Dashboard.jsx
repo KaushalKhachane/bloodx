@@ -24,26 +24,26 @@ const Dashboard = () => {
 
   const navigate = useNavigate("");
 
-  const[appnt,setappnt] = useState([])
+  const [appnt, setappnt] = useState([])
 
   React.useEffect(() => {
     window.scroll({
       top: 0,
-      behavior:"smooth"
+      behavior: "smooth"
     })
-    const fetchappnts = async()=>{
-    try{
-      const res = await axios.get("http://localhost:8081/api/appointments/donated")
-      setappnt(res.data);
-      console.log(res)
-    }
-       
-      catch(err){
+    const fetchappnts = async () => {
+      try {
+        const res = await axios.get("http://localhost:8081/api/appointments/donated")
+        setappnt(res.data);
+        console.log(res)
+      }
+
+      catch (err) {
         console.log(err)
       }
     }
     fetchappnts();
-  },[])
+  }, [])
 
   return (
     <>
@@ -54,7 +54,7 @@ const Dashboard = () => {
             className="d-block w-100"
             src={bg_image1}
             alt="One Blood Donation saves Three Lives every day"
-            style={{height:"90vh"}}
+            style={{ height: "90vh" }}
           />
           {/* <Carousel.Caption>
           <h3></h3>
@@ -198,36 +198,7 @@ const Dashboard = () => {
               </Typography>
             </Grid>
           )}
-          {/* 
-          <Grid item xs={3}>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={usericon} className="usericon" />
-              <Card.Body style={{ color: "black" }}>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text align="left">
-                  Gender:
-                  <br></br>
-                  Blood Group:
-                </Card.Text>
-                <Button variant="primary">Request</Button>
-              </Card.Body>
-            </Card>
-          </Grid>
 
-          <Grid item xs={3}>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={usericon} className="usericon" />
-              <Card.Body style={{ color: "black" }}>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text align="left">
-                  Gender:
-                  <br></br>
-                  Blood Group:
-                </Card.Text>
-                <Button variant="primary">Request</Button>
-              </Card.Body>
-            </Card>
-          </Grid> */}
 
           <Grid item xs={1.5}></Grid>
         </Grid>

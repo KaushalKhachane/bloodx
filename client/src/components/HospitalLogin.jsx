@@ -44,7 +44,7 @@ function HospitalLogin() {
 
   const handleClick = async e =>{
     e.preventDefault()
-      await axios.post("http://localhost:8081/hospitallogin",{
+      await axios.post("http://localhost:8081/api/hospitals/login",{
         reg_no:reg_no,
         hospital_password:hospital_password,
       })

@@ -23,6 +23,8 @@ router.post("/add", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { reg_no, hospital_password } = req.body;
+  console.log(reg_no)
+  console.log(hospital_password)
 
   try {
     const hospital = await Hospitals.findOne({ reg_no, hospital_password });

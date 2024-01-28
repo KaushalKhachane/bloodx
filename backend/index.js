@@ -137,7 +137,8 @@ mongoose.connect(
 const db = mongoose.connection;
 
 db.on("error", (err) => {
-  console.error("MongoDB Connection Error:", err);
+  console.error("MongoDB Connection Error:", err.message);
+  console.log("Check Netwoek")
 });
 
 db.once("open", () => {

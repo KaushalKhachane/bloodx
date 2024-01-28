@@ -9,34 +9,22 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-// import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-// import Link from '@mui/material/Link';
-// import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-// import NotificationsIcon from '@mui/icons-material/Notifications';
 import Footer from './Footer';
-// import { mainListItems, secondaryListItems } from './listItems';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Appointments from './Appointments';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
-// import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Outlet } from 'react-router-dom';
 import './AdminDashboard.css';
 import Header from './Header';
-// import Requests from './Requests';
-// import Donors from './Donors';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -98,73 +86,39 @@ function DashboardContent() {
     setOpen(!open);
   };
 
-  const[stocks,setstocks] = useState([])
+  const [stocks, setstocks] = useState([])
 
-  React.useEffect(()=>{
-    const fetchstock = async()=>{
-    try{
-      const res = await axios.get("http://localhost:8081/stock")
-      setstocks(res.data);
-      console.log(res)
-    }
-       
-      catch(err){
+  React.useEffect(() => {
+    const fetchstock = async () => {
+      try {
+        const res = await axios.get("http://localhost:8081/api/bloodstock/all")
+        setstocks(res.data);
+        console.log(res)
+      }
+
+      catch (err) {
         console.log(err)
       }
     }
     fetchstock();
-  },[])
+  }, [])
 
   return (
-    
+
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex', color:"red"}}>
+      <Box sx={{ display: 'flex', color: "red" }}>
         <CssBaseline />
-        {/* <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="white"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Dashboard
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar> */}
         <AppBar>
-        <Header/>
+          <Header />
         </AppBar>
-        
+
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
-              marginTop : '75px',
+              marginTop: '75px',
               px: [1],
             }}
           >
@@ -176,57 +130,57 @@ function DashboardContent() {
           <List component="nav">
             {/* {mainListItems} */}
             <React.Fragment>
-                <ListItemButton href="/admindashboard">
+              <ListItemButton href="/admindashboard">
                 <ListItemIcon>
-                    <DashboardIcon />
+                  <DashboardIcon />
                 </ListItemIcon>
                 <ListItemText primary="Dashboard" />
-                </ListItemButton>
-                <ListItemButton href="/donorlist">
+              </ListItemButton>
+              <ListItemButton href="/donorlist">
                 <ListItemIcon>
-                <PeopleIcon />
+                  <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Donor List" />
-                </ListItemButton>
-                
-                <ListItemButton href="/hospitallist">
+              </ListItemButton>
+
+              <ListItemButton href="/hospitallist">
                 <ListItemIcon>
-                    <BarChartIcon />
+                  <BarChartIcon />
                 </ListItemIcon>
                 <ListItemText primary="Hospital List" />
-                </ListItemButton>
-          
+              </ListItemButton>
+
             </React.Fragment>
             <Divider sx={{ my: 1 }} />
             {/* {secondaryListItems} */}
             <React.Fragment>
-                <ListSubheader component="div" inset>
+              <ListSubheader component="div" inset>
                 Dashboard Items
-                </ListSubheader>
-                <ListItemButton>
+              </ListSubheader>
+              <ListItemButton>
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Blood Groups" />
-                </ListItemButton>
-                <ListItemButton href="/appntlist">
+              </ListItemButton>
+              <ListItemButton href="/appntlist">
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Appointments" />
-                </ListItemButton>
-                <ListItemButton href="/bloodrequests">
+              </ListItemButton>
+              <ListItemButton href="/bloodrequests">
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Blood Requests" />
-                </ListItemButton>
-                <ListItemButton>
+              </ListItemButton>
+              <ListItemButton>
                 <ListItemIcon>
-                    <AssignmentIcon />
+                  <AssignmentIcon />
                 </ListItemIcon>
                 <ListItemText primary="Blood Stock" />
-                </ListItemButton>
+              </ListItemButton>
             </React.Fragment>
           </List>
         </Drawer>
@@ -246,45 +200,45 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 6, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-             
+
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <React.Fragment>
-      <Typography component="h2" variant="h6" color="primary" align="left " gutterBottom>
-         <b>Blood Stocks</b>
-    </Typography>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell><b>Blood Group</b></TableCell>
-            <TableCell><b>Quantity</b></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {stocks.map(stock => (
-            <TableRow>
-              <TableCell>{stock.blood_type}</TableCell>
-              <TableCell>{stock.quantity}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+                  <React.Fragment>
+                    <Typography component="h2" variant="h6" color="primary" align="left " gutterBottom>
+                      <b>Blood Stocks</b>
+                    </Typography>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell><b>Blood Group</b></TableCell>
+                          <TableCell><b>Quantity</b></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {stocks.map(stock => (
+                          <TableRow>
+                            <TableCell>{stock.blood_type}</TableCell>
+                            <TableCell>{stock.quantity}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
       </Link> */}
-    </React.Fragment>
+                  </React.Fragment>
                 </Paper>
               </Grid>
             </Grid>
-            
+
           </Container>
         </Box>
       </Box>
-      <Footer/>
-      <Outlet/>
+      <Footer />
+      <Outlet />
     </ThemeProvider>
-    
+
   );
 }
 
